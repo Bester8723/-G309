@@ -49,6 +49,7 @@ void CSceneTitle::Render(void) {
 /// デバッグ描画
 /// </summary>
 void CSceneTitle::RenderDebug(void) {
+	CGraphicsUtilities::RenderString(10, 10, "タイトル画面");
 }
 
 /// <summary>

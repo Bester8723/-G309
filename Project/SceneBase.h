@@ -6,6 +6,7 @@
 															@author	池上　綾香
 *//**************************************************************************/
 #pragma once
+#include	"Mof.h"
 class CSceneBase {
 protected:
 	bool				m_bEnd;						//シーン終了フラグ
