@@ -1,60 +1,59 @@
 /*************************************************************************//*!
 
-					@file	SceneTitle.cpp
-					@brief	タイトル画面。
+					@file	SceneGame.cpp
+					@brief	ゲーム画面。
 
 															@author	池上　綾香
 *//**************************************************************************/
-#include "SceneTitle.h"
+#include "SceneGame.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-CSceneTitle::CSceneTitle() {
+CSceneGame::CSceneGame() {
 }
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-CSceneTitle::~CSceneTitle() {
+CSceneGame::~CSceneGame() {
 }
 
 /// <summary>
 /// 読み込み
 /// </summary>
 /// <returns>成功：true, 失敗：false</returns>
-bool CSceneTitle::Load() {
+bool CSceneGame::Load() {
 	return false;
 }
 
 /// <summary>
 /// 初期化
 /// </summary>
-void CSceneTitle::Initialize() {
+void CSceneGame::Initialize() {
 }
 
 /// <summary>
 /// 更新
 /// </summary>
-void CSceneTitle::Update() {
+void CSceneGame::Update() {
 }
 
 /// <summary>
 /// 描画
 /// </summary>
-void CSceneTitle::Render(void) {
-	CGraphicsUtilities::RenderFillRect(0, 0, 100, 100, MOF_COLOR_RED);
+void CSceneGame::Render(void) {
 }
 
 /// <summary>
 /// デバッグ描画
 /// </summary>
-void CSceneTitle::RenderDebug(void) {
-	CGraphicsUtilities::RenderString(10, 10, "タイトル画面");
+void CSceneGame::RenderDebug(void) {
+	CGraphicsUtilities::RenderString(10, 10, "ゲーム画面");
 }
 
 /// <summary>
 /// 解放
 /// </summary>
-void CSceneTitle::Release(void) {
+void CSceneGame::Release(void) {
 }
