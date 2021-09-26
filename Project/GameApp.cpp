@@ -14,7 +14,6 @@
 #include	"SceneTitle.h"
 #include	"SceneStageSelect.h"
 #include	"SceneGame.h"
-#include	"SceneGameClear.h"
 
 //デバッグ用フラグ
 bool m_bDebug = false;
@@ -71,11 +70,8 @@ MofBool CGameApp::Update(void) {
 		case SCENENO_GAME:
 			gpScene = new CSceneGame();
 			break;
-		case SCENENO_GAMECLEAR:
+		case SCENENO_RESULT:
 			gpScene = new CSceneGameClear();
-			break;
-		case SCENENO_GAMEOVER:
-			gpScene = new CSceneTitle();
 			break;
 		default:
 			gpScene = new CSceneTitle();
