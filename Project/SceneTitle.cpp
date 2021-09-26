@@ -37,13 +37,13 @@ void CSceneTitle::Initialize() {
 /// çXêV
 /// </summary>
 void CSceneTitle::Update() {
+	
 }
 
 /// <summary>
 /// ï`âÊ
 /// </summary>
 void CSceneTitle::Render(void) {
-	CGraphicsUtilities::RenderFillRect(0, 0, 100, 100, MOF_COLOR_RED);
 }
 
 /// <summary>

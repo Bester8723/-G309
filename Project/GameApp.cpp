@@ -14,6 +14,7 @@
 #include	"SceneTitle.h"
 #include	"SceneStageSelect.h"
 #include	"SceneGame.h"
+#include	"SceneResult.h"
 
 //デバッグ用フラグ
 bool m_bDebug = false;
@@ -32,7 +33,7 @@ MofBool CGameApp::Initialize(void) {
 	CUtilities::SetCurrentDirectory("Resource");
 
 	//最初に実行されるシーンの初期化
-	gpScene = new CSceneTitle();
+	gpScene = new CSceneGame();
 	gpScene->Initialize();
 
 	return TRUE;
@@ -71,7 +72,7 @@ MofBool CGameApp::Update(void) {
 			gpScene = new CSceneGame();
 			break;
 		case SCENENO_RESULT:
-			gpScene = new CSceneGameClear();
+			gpScene = new CSceneResult();
 			break;
 		default:
 			gpScene = new CSceneTitle();

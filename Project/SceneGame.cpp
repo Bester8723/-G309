@@ -10,7 +10,9 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-CSceneGame::CSceneGame() {
+CSceneGame::CSceneGame() : 
+CSceneBase(),
+m_Player() {
 }
 
 /// <summary>
@@ -31,18 +33,21 @@ bool CSceneGame::Load() {
 /// 初期化
 /// </summary>
 void CSceneGame::Initialize() {
+	m_Player.Initialize();
 }
 
 /// <summary>
 /// 更新
 /// </summary>
 void CSceneGame::Update() {
+	m_Player.Update();
 }
 
 /// <summary>
 /// 描画
 /// </summary>
 void CSceneGame::Render(void) {
+	m_Player.Render(Vector2(0, 0));
 }
 
 /// <summary>
@@ -50,10 +55,12 @@ void CSceneGame::Render(void) {
 /// </summary>
 void CSceneGame::RenderDebug(void) {
 	CGraphicsUtilities::RenderString(10, 10, "ゲーム画面");
+	m_Player.RenderDebug(Vector2(0, 0));
 }
 
 /// <summary>
 /// 解放
 /// </summary>
 void CSceneGame::Release(void) {
+	m_Player.Release();
 }
