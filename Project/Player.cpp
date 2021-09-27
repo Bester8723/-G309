@@ -152,8 +152,8 @@ void CPlayer::UpdateKey(void) {
 			m_Motion.ChangeMotion(MOTION_MOVE);
 		}
 	}
-	//Spaceキーでジャンプ
-	if (g_pInput->IsKeyPush(MOFKEY_SPACE) && m_JumpCount < MAXJUMPCOUNT)
+	//ジャンプ
+	if (g_pInput->IsKeyPush(MOFKEY_W) && m_JumpCount < MAXJUMPCOUNT)
 	{
 		m_bJumping = true;
 		m_JumpCount++;
