@@ -9,10 +9,18 @@
 #include	"Mof.h"
 #include	"SceneBase.h"
 #include	"Player.h"
+#include	"Stage.h"
+#include	"Enemy.h"
+#include	"Item.h"
+#include	"EffectManager.h"
 
 class CSceneGame : public CSceneBase {
 private:
-	CPlayer			m_Player;
+	CPlayer			m_Player;				//プレイヤー
+	CStage			m_Stage;				//ステージ
+	CEnemy*			m_EnemyArray;			//敵
+	CItem*			m_ItemArray;			//アイテム
+	CEffectManager	m_EffectManager;		//エフェクト
 public:
 	CSceneGame();
 	~CSceneGame();

@@ -19,3 +19,6 @@ enum tag_SCENENO {
 
 	COUNT_SCENENO,
 };
+
+#define			GRAVITY					0.3f			//ПdЧЌ
+#define			MAXGRAVITY				20.0f			//Н≈СеПdЧЌЙЅСђ

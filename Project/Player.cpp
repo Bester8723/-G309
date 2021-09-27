@@ -20,7 +20,11 @@ m_Move(0.0f, 0.0f),
 m_bMove(false),
 m_JumpCount(0),
 m_bJumping(false),
-m_bDead(false) {
+m_bDead(false),
+m_HP(PLAYER_INI_HP),
+m_DamageWait(0),
+m_pEffectManager(NULL),
+m_pEndEffect(NULL) {
 }
 
 /// <summary>
@@ -35,7 +39,7 @@ CPlayer::~CPlayer() {
 /// <returns>成功：true, 失敗：false</returns>
 bool CPlayer::Load() {
 	//プレイヤーテクスチャの読み込み
-	if (!m_Tex.Load("player.png")) { return false; }
+	if (!m_Tex.Load("player.png")) { return FALSE; }
 	//アニメーションを作成
 	SpriteAnimationCreate anim[] = {
 		{
@@ -72,14 +76,13 @@ bool CPlayer::Load() {
 	m_Motion.Create(anim, MOTION_COUNT);
 	m_Motion.ChangeMotion(MOTION_WAIT);
 
-	return FALSE;
+	return TRUE;
 }
 
 /// <summary>
 /// 初期化
 /// </summary>
 void CPlayer::Initialize() {
-	Load();
 	m_bReverse = false;
 	m_Pos = Vector2(0.0f, 0.0f);
 	m_Move = Vector2(0.0f, 0.0f);
@@ -87,6 +90,8 @@ void CPlayer::Initialize() {
 	m_JumpCount = 0;
 	m_bJumping = false;
 	m_bDead = false;
+	m_HP = PLAYER_INI_HP;
+	m_DamageWait = 0;
 }
 
 /// <summary>
@@ -113,17 +118,6 @@ void CPlayer::Update() {
 	//アニメーションの更新
 	m_Motion.AddTimer(CUtilities::GetFrameSecond());
 	m_SrcRect = m_Motion.GetSrcRect();
-	//ステージができるまで床を固定
-	if (m_Pos.y > g_pGraphics->GetTargetHeight() - 200)
-	{
-		m_Pos.y = g_pGraphics->GetTargetHeight() - 200;
-		m_Move.y = 0;
-		if (m_bJumping)
-		{
-			m_bJumping = false;
-			m_Motion.ChangeMotion(MOTION_JUMPEND);
-		}
-	}
 }
 
 /// <summary>
@@ -153,7 +147,7 @@ void CPlayer::UpdateKey(void) {
 		}
 	}
 	//ジャンプ
-	if (g_pInput->IsKeyPush(MOFKEY_W) && m_JumpCount < MAXJUMPCOUNT)
+	if (g_pInput->IsKeyPush(MOFKEY_W) && m_JumpCount < PLAYER_MAXJUMPCOUNT)
 	{
 		m_bJumping = true;
 		m_JumpCount++;
@@ -206,4 +200,121 @@ void CPlayer::RenderDebug(Vector2 world) {
 void CPlayer::Release(void) {
 	m_Tex.Release();
 	m_Motion.Release();
+}
+
+/// <summary>
+/// ステージとの当たり判定
+/// </summary>
+/// <param name="buried">埋まり量</param>
+void CPlayer::CollisionStage(Vector2 buried) {
+	m_Pos += buried;
+	//落下中の下埋まり、ジャンプ中の上埋まりの場合は移動を初期化する。
+	if (buried.y < 0 && m_Move.y > 0)
+	{
+		m_Move.y = 0;
+		if (m_bJumping)
+		{
+			m_bJumping = false;
+			m_Motion.ChangeMotion(MOTION_JUMPEND);
+		}
+	}
+	else if (buried.y > 0 && m_Move.y < 0)
+	{
+		m_Move.y = 0;
+	}
+	//左移動中の左埋まり、右移動中の右埋まりの場合は移動を初期化する。
+	if (buried.x < 0 && m_Move.x > 0)
+	{
+		m_Move.x = 0;
+	}
+	else if (buried.x > 0 && m_Move.x < 0)
+	{
+		m_Move.x = 0;
+	}
+}
+
+/// <summary>
+/// 敵との当たり判定
+/// </summary>
+/// <param name="ene">判定を行う敵</param>
+/// <returns>当たっていればtrue, 当たっていなければfalse</returns>
+bool CPlayer::CollisionEnemy(CEnemy& ene) {
+	if (!ene.GetShow() || m_HP <= 0)
+	{
+		return FALSE;
+	}
+	CRectangle prec = GetRect();
+	CRectangle erec = ene.GetRect();
+	if (prec.CollisionRect(erec))
+	{
+		m_HP -= 5;
+		m_DamageWait = PLAYER_DAMAGEWAIT;
+		if (prec.Left < erec.Left)
+		{
+			m_Move.x = -5.0f;
+			m_bReverse = false;
+		}
+		else
+		{
+			m_Move.x = 5.0f;
+			m_bReverse = true;
+		}
+		m_Motion.ChangeMotion(MOTION_DAMAGE);
+		if (m_HP <= 0)
+		{
+			//爆発エフェクトを発生させる
+			Vector2 startPos = Vector2(m_Pos.x + m_SrcRect.GetWidth() * 0.5f, m_Pos.y + m_SrcRect.GetHeight() * 0.5f);
+			m_pEndEffect = m_pEffectManager->Start(startPos, EFC_EXPLOSION02);
+		}
+		else
+		{
+			//ダメージエフェクトを発生させる
+			Vector2 startPos = Vector2(m_Pos.x + m_SrcRect.GetWidth() * 0.5f, m_Pos.y + m_SrcRect.GetHeight() * 0.5f);
+			m_pEffectManager->Start(startPos, EFC_DAMAGE);
+		}
+		return TRUE;
+	}
+	////敵の矩形と自分の攻撃矩形で敵がダメージ
+	//prec = GetAttackRect();
+	//if (prec.CollisionRect(erec))
+	//{
+	//	ene.Damage(5, m_bReverse);
+	//	return true;
+	//}
+
+	return FALSE;
+}
+
+/// <summary>
+/// アイテムとの当たり判定
+/// </summary>
+/// <param name="itm">判定を行うアイテム</param>
+/// <returns></returns>
+bool CPlayer::CollisionItem(CItem& itm) {
+	//if (!itm.GetShow())
+	//{
+	//	return false;
+	//}
+	////アイテムの矩形と自分の矩形で当たり判定
+	//CRectangle prec = GetRect();
+	//CRectangle irec = itm.GetRect();
+	//if (prec.CollisionRect(irec))
+	//{
+	//	itm.SetShow(false);
+	//	switch (itm.GetType())
+	//	{
+	//	case ITEM_RECOVER:
+	//		m_HP += 30;
+	//		if (m_HP >= 100)
+	//		{
+	//			m_HP = 100;
+	//		}
+	//		break;
+	//	case ITEM_GOAL:
+	//		m_bGoal = true;
+	//		break;
+	//	}
+	//	return true;
+	//}
+	return false;
 }

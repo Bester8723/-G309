@@ -7,13 +7,18 @@
 *//**************************************************************************/
 #pragma once
 #include	"Mof.h"
+#include	"GameDefine.h"
+#include	"Enemy.h"
+#include	"Item.h"
+#include	"EffectManager.h"
 
 #define		PLAYER_SPEED			0.3f			//移動速度
 #define		PLAYER_MAXSPEED			10.0f			//移動最大速度
 #define		PLAYER_JUMP				-10.0f			//ジャンプ初速
-#define		MAXJUMPCOUNT			2				//最大ジャンプ回数
-#define		GRAVITY					0.3f			//重力
-#define		MAXGRAVITY				20.0f			//最大重力加速
+#define		PLAYER_MAXJUMPCOUNT		2				//最大ジャンプ回数
+#define		PLAYER_RECTDECREASE		12				//当たり判定減衰幅
+#define		PLAYER_INI_HP			5				//初期HP
+#define		PLAYER_DAMAGEWAIT		60				//ダメージ待機時間
 
 class CPlayer {
 private:
@@ -27,6 +32,10 @@ private:
 	int							m_JumpCount;
 	bool						m_bJumping;
 	bool						m_bDead;
+	int							m_HP;
+	int							m_DamageWait;
+	CEffectManager*				m_pEffectManager;
+	CEffect*					m_pEndEffect;
 
 	//モーション種類定義
 	enum tag_MOTION {
@@ -49,4 +58,13 @@ public:
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
 	void Release();
+	CRectangle GetRect() {
+		return CRectangle(
+			m_Pos.x + PLAYER_RECTDECREASE, m_Pos.y + PLAYER_RECTDECREASE, 
+			m_Pos.x + m_SrcRect.GetWidth() - PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight());
+	}
+	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
+	void CollisionStage(Vector2 buried);
+	bool CollisionEnemy(CEnemy& ene);
+	bool CollisionItem(CItem& itm);
 };

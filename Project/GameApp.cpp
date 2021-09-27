@@ -128,6 +128,7 @@ MofBool CGameApp::Release(void) {
 	//ƒV[ƒ“‚Ì‰ð•ú
 	if (gpScene)
 	{
+		gpScene->Release();
 		delete gpScene;
 		gpScene = NULL;
 	}
