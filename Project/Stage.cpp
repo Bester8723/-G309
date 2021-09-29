@@ -154,12 +154,13 @@ bool CStage::Load(char* pName) {
 	return true;
 }
 
-/**
- * 初期化
- * パラメーターや座標を初期化する。
- */
+/// <summary>
+/// 初期化
+/// </summary>
+/// <param name="pEnemy">敵</param>
+/// <param name="pItem">アイテム</param>
 void CStage::Initialize(CEnemy* pEnemy, CItem* pItem) {
-	m_Scroll = Vector2(0, 0);
+	m_Scroll = Vector2(10, m_ChipSize * m_ChipCnt.y - g_pGraphics->GetTargetHeight());
 	int n = 0;
 	for (int y = 0; y < m_ChipCnt.y; y++)
 	{
@@ -195,54 +196,42 @@ void CStage::Initialize(CEnemy* pEnemy, CItem* pItem) {
 	}
 }
 
-/**
- * 更新
- *
- * 引数
- * [in]			pl					プレイヤー、スクロールの判定に使用
- */
+/// <summary>
+/// 更新
+/// </summary>
+/// <param name="pl">プレイヤー。スクロールの判定に使用。</param>
 void CStage::Update(CPlayer& pl) {
-	//プレイヤーの矩形を取得
-	CRectangle prec = pl.GetRect();
-	//スクリーンの幅
-	float sw = CGraphicsUtilities::GetGraphics()->GetTargetWidth();
-	//ステージ全体の幅
-	float stgw = m_ChipSize * m_ChipCnt.x;
-	//座標が画面端によっている（各端から200pixel）場合、スクロールを行って補正する
-	if (prec.Left - m_Scroll.x < 200)
+	CRectangle prec = pl.GetRect();											//プレイヤーの矩形
+	float sh = CGraphicsUtilities::GetGraphics()->GetTargetHeight();		//スクリーンの高さ
+	float stgh = m_ChipSize * m_ChipCnt.y;									//ステージ全体の高さ
+	if (prec.Top - m_Scroll.y < STAGESCROLL)
 	{
-		m_Scroll.x -= 200 - (prec.Left - m_Scroll.x);
-		if (m_Scroll.x <= 0)
+		m_Scroll.y -= STAGESCROLL - (prec.Top - m_Scroll.y);
+		if (m_Scroll.y <= 0)
 		{
-			m_Scroll.x = 0;
+			m_Scroll.y = 0;
 		}
 	}
-	else if (prec.Right - m_Scroll.x > sw - 200)
+	else if (prec.Bottom - m_Scroll.y > sh - STAGESCROLL)
 	{
-		m_Scroll.x += (prec.Right - m_Scroll.x) - (sw - 200);
-		if (m_Scroll.x >= stgw - sw)
+		m_Scroll.y += (prec.Bottom - m_Scroll.y) - (sh - STAGESCROLL);
+		if (m_Scroll.y >= stgh - sh)
 		{
-			m_Scroll.x = stgw - sw;
+			m_Scroll.y = stgh - sh;
 		}
 	}
 }
 
-/**
- * 描画
- *
- */
-void CStage::Render(void) {
+/// <summary>
+/// 描画
+/// </summary>
+void CStage::Render() {
 	//遠景の描画
-	int scw = g_pGraphics->GetTargetWidth();
 	int sch = g_pGraphics->GetTargetHeight();
-	int wn = m_BackTexture.GetWidth();
 	int hn = m_BackTexture.GetHeight();
 	for (float y = ((int)-m_Scroll.y % hn) - hn; y < sch; y += hn)
 	{
-		for (float x = ((int)-m_Scroll.x % wn) - wn; x < scw; x += wn)
-		{
-			m_BackTexture.Render(x, y);
-		}
+		m_BackTexture.Render(0, y);
 	}
 
 	//テクスチャの横幅からマップチップの縦オフセットを求める
@@ -260,27 +249,26 @@ void CStage::Render(void) {
 				continue;
 			}
 			//マップチップの矩形
-			CRectangle cr(m_ChipSize * (cn % tcx), m_ChipSize * (cn / tcx), m_ChipSize * (cn % tcx + 1), m_ChipSize * (cn / tcx + 1));
+			CRectangle cr(
+				m_ChipSize * (cn % tcx), m_ChipSize * (cn / tcx), 
+				m_ChipSize * (cn % tcx + 1), m_ChipSize * (cn / tcx + 1));
 			//マップチップの描画
 			m_ChipTexture.Render(-m_Scroll.x + x * m_ChipSize, -m_Scroll.y + y * m_ChipSize, cr);
 		}
 	}
 }
 
-/**
- * デバッグ描画
- *
- */
-void CStage::RenderDebug(void) {
-	//位置の描画
+/// <summary>
+/// デバッグ描画
+/// </summary>
+void CStage::RenderDebug() {
 	CGraphicsUtilities::RenderString(10, 100, "スクロール X : %.0f , Y : %.0f", m_Scroll.x, m_Scroll.y);
 }
 
-/**
- * 解放
- *
- */
-void CStage::Release(void) {
+/// <summary>
+/// 解放
+/// </summary>
+void CStage::Release() {
 	m_ChipTexture.Release();
 	m_BackTexture.Release();
 	if (m_pChipData)
@@ -310,16 +298,13 @@ void CStage::Release(void) {
 	}
 }
 
-/**
- * 当たり判定
- *
- * 引数
- * [in]			r			判定矩形
- * [out]		buried.x			Ｘ埋まり
- * [out]		buried.y			Ｙ埋まり
- */
-bool CStage::Collision(CRectangle r, Vector2& buried)
-{
+/// <summary>
+/// 当たり判定
+/// </summary>
+/// <param name="r">判定する矩形</param>
+/// <param name="buried">埋まり量</param>
+/// <returns>当たっていればtrue, 当たっていなければfalse</returns>
+bool CStage::Collision(CRectangle r, Vector2& buried) {
 	bool re = false;
 
 	//当たり判定する矩形の左上と右下のチップ位置を求める

@@ -22,6 +22,8 @@
 
 class CPlayer {
 private:
+	const float					SCREEN_WIDTH = g_pGraphics->GetTargetWidth();
+
 	CTexture					m_Tex;
 	CRectangle					m_SrcRect;
 	bool						m_bReverse;
@@ -51,7 +53,7 @@ public:
 	CPlayer();
 	~CPlayer();
 	bool Load();
-	void Initialize();
+	void Initialize(Vector2 world);
 	void Update();
 	void UpdateKey();
 	void UpdateMove();

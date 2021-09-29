@@ -13,6 +13,7 @@
 
 //左傾斜チップ
 #define		LEFTSLOPE		2
+#define		STAGESCROLL		300			//スクロール地点
 
 class CStage {
 private:

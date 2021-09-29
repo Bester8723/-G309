@@ -48,10 +48,10 @@ bool CSceneGame::Load() {
 /// </summary>
 void CSceneGame::Initialize() {
 	Load();
-	//プレイヤーの状態初期化
-	m_Player.Initialize();
 	//ステージの状態初期化
 	m_Stage.Initialize(m_EnemyArray, m_ItemArray);
+	//プレイヤーの状態初期化
+	m_Player.Initialize(m_Stage.GetScroll());
 	//エフェクトの状態初期化
 	m_EffectManager.Initialize();
 	//プレイヤーと敵にエフェクトクラスの設定

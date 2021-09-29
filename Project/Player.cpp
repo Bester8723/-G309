@@ -75,6 +75,7 @@ bool CPlayer::Load() {
 	};
 	m_Motion.Create(anim, MOTION_COUNT);
 	m_Motion.ChangeMotion(MOTION_WAIT);
+	m_SrcRect = m_Motion.GetSrcRect();
 
 	return TRUE;
 }
@@ -82,9 +83,10 @@ bool CPlayer::Load() {
 /// <summary>
 /// 初期化
 /// </summary>
-void CPlayer::Initialize() {
+/// <param name="world">ワールドの初期変化値</param>
+void CPlayer::Initialize(Vector2 world) {
 	m_bReverse = false;
-	m_Pos = Vector2(0.0f, 0.0f);
+	m_Pos = Vector2(world.x, world.y + g_pGraphics->GetTargetHeight() - m_SrcRect.GetHeight());
 	m_Move = Vector2(0.0f, 0.0f);
 	m_bMove = false;
 	m_JumpCount = 0;
@@ -115,6 +117,7 @@ void CPlayer::Update() {
 	}
 	UpdateMove();
 	m_Pos += m_Move;
+	m_Pos.x = MOF_CLIPING(m_Pos.x, 0, SCREEN_WIDTH - m_SrcRect.GetWidth());
 	//アニメーションの更新
 	m_Motion.AddTimer(CUtilities::GetFrameSecond());
 	m_SrcRect = m_Motion.GetSrcRect();
