@@ -20,13 +20,19 @@ private:
 	CSpriteMotionController	m_Motion;
 	int						m_Type;
 	CVector2				m_Pos;
-	CVector2				m_Move;
 	bool					m_bShow;
 	bool					m_bReverse;
 	CRectangle				m_SrcRect;
 	int						m_HP;
 	int						m_DamageWait;
+	float					ENEMY_DAMAGESPEED;
 	CEffectManager*			m_pEffectManager;
+
+	CVector2				ENEMY_INI_POS;			//初期位置
+	float					ENEMY_QUAKE;			//移動距離
+	float					ENEMY_INI_SPEED;		//初期移動速度
+	float					m_MoveSpeed;			//移動速度
+	float					m_MoveTime;				//加算時間
 
 	//モーション種類定義
 	enum tag_MOTION {
@@ -34,6 +40,13 @@ private:
 		MOTION_DAMAGE,
 
 		MOTION_COUNT,
+	};
+	//敵タイプ
+	enum tag_ENEMYTYPE {
+		ENEMYTYPE_HORIZONTAL,
+		ENEMYTYPE_VERTICAL,
+
+		ENEMYTYPE_COUNT,
 	};
 public:
 	CEnemy();

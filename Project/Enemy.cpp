@@ -15,13 +15,18 @@ m_pTexture(NULL),
 m_Motion(),
 m_Type(),
 m_Pos(0.0f, 0.0f),
-m_Move(0.0f, 0.0f),
 m_bShow(false),
 m_bReverse(false),
 m_SrcRect(),
 m_HP(ENEMY_INI_HP),
 m_DamageWait(0),
-m_pEffectManager(NULL) {
+ENEMY_DAMAGESPEED(0.0f),
+m_pEffectManager(NULL),
+ENEMY_INI_POS(0.0f, 0.0f),
+ENEMY_QUAKE(0.0f),
+ENEMY_INI_SPEED(0.0f),
+m_MoveSpeed(0.0f),
+m_MoveTime(0.0f) {
 }
 
 /// <summary>
@@ -39,12 +44,22 @@ CEnemy::~CEnemy() {
 void CEnemy::Initialize(Vector2 pos, int type) {
 	m_Type = type;
 	m_Pos = pos;
-	m_Move.x = -3.0f;
-	m_Move.y = 0.0f;
 	m_bReverse = true;
 	m_bShow = true;
 	m_HP = 10;
 	m_DamageWait = 0;
+
+	ENEMY_INI_POS = m_Pos;
+	ENEMY_QUAKE = 120.0f;
+	m_MoveTime = 0.0f;
+	switch (m_Type)
+	{
+	case	ENEMYTYPE_HORIZONTAL:	ENEMY_INI_SPEED = 3.0f;		break;
+	case	ENEMYTYPE_VERTICAL:		ENEMY_INI_SPEED = 5.0f;		break;
+	default:						ENEMY_INI_SPEED = 3.0f;		break;
+	}
+	m_MoveSpeed = ENEMY_INI_SPEED;
+	ENEMY_DAMAGESPEED = ENEMY_INI_SPEED * 1.5f;
 
 	SpriteAnimationCreate anim[] = {
 		{
@@ -67,7 +82,6 @@ void CEnemy::Initialize(Vector2 pos, int type) {
 /// 更新
 /// </summary>
 void CEnemy::Update() {
-	//非表示
 	if (!m_bShow)
 	{
 		return;
@@ -86,35 +100,44 @@ void CEnemy::Update() {
 				Vector2 startPos = Vector2(m_Pos.x + m_SrcRect.GetWidth() * 0.5f, m_Pos.y + m_SrcRect.GetHeight() * 0.5f);
 				m_pEffectManager->Start(startPos, EFC_EXPLOSION01);
 			}
-			m_Move.x = ((m_bReverse) ? -3.0f : 3.0f);
+			m_MoveSpeed = ((m_bReverse) ? -3.0f : 3.0f);
 		}
 		else
 		{
-			if (m_Move.x > 0)
+			if (m_MoveSpeed > 0)
 			{
-				m_Move.x -= 0.2f;
-				if (m_Move.x <= 0)
-				{
-					m_Move.x = 0;
-				}
+				m_MoveSpeed = MOF_CLIPING(m_MoveSpeed - 0.2f, 0, 20.0f);
 			}
-			else if (m_Move.x < 0)
+			else if (m_MoveSpeed < 0)
 			{
-				m_Move.x += 0.2f;
-				if (m_Move.x >= 0)
-				{
-					m_Move.x = 0;
-				}
+				m_MoveSpeed = MOF_CLIPING(m_MoveSpeed + 0.2f, -20.0f, 0);
 			}
 		}
 	}
-	//重力により少しずつ下がる
-	m_Move.y += GRAVITY;
-	if (m_Move.y >= 20.0f) { m_Move.y = 20.0f; }
-	//実際に座標を移動させる
-	m_Pos.x += m_Move.x;
-	m_Pos.y += m_Move.y;
-	//アニメーションの更新
+
+	m_MoveTime += 0.01f;
+	if (m_MoveTime > MOF_MATH_2PI)
+	{
+		m_MoveTime -= MOF_MATH_2PI;
+	}
+	CVector2 pos = m_Pos;
+	if (m_Type == ENEMYTYPE_HORIZONTAL)
+	{
+		m_Pos.x = ENEMY_INI_POS.x + sin(m_MoveTime * m_MoveSpeed) * ENEMY_QUAKE;
+		if ((m_Pos.x - pos.x) > 0)
+		{
+			m_bReverse = false;
+		}
+		else if ((m_Pos.x - pos.x) < 0)
+		{
+			m_bReverse = true;
+		}
+	}
+	else
+	{
+		m_Pos.y = ENEMY_INI_POS.y + sin(m_MoveTime * m_MoveSpeed) * ENEMY_QUAKE;
+	}
+
 	m_Motion.AddTimer(CUtilities::GetFrameSecond());
 	m_SrcRect = m_Motion.GetSrcRect();
 	//ダメージのインターバルを減らす
@@ -130,26 +153,6 @@ void CEnemy::Update() {
 /// <param name="buried">埋まり量</param>
 void CEnemy::CollisionStage(Vector2 buried) {
 	m_Pos += buried;
-	//落下中の下埋まり、ジャンプ中の上埋まりの場合は移動を初期化する。
-	if (buried.y < 0 && m_Move.y > 0)
-	{
-		m_Move.y = 0;
-	}
-	else if (buried.y > 0 && m_Move.y < 0)
-	{
-		m_Move.y = 0;
-	}
-	//左移動中の左埋まり、右移動中の右埋まりの場合は移動を初期化する。
-	if (buried.x < 0 && m_Move.x > 0)
-	{
-		m_Move.x *= -1;
-		m_bReverse = true;
-	}
-	else if (buried.x > 0 && m_Move.x < 0)
-	{
-		m_Move.x *= -1;
-		m_bReverse = false;
-	}
 }
 
 /// <summary>
@@ -157,26 +160,23 @@ void CEnemy::CollisionStage(Vector2 buried) {
 /// </summary>
 /// <param name="world">ワールドの変化</param>
 void CEnemy::Render(Vector2 world) {
-	//非表示
 	if (!m_bShow)
 	{
 		return;
 	}
-	//インターバル２　フレームごとに描画をしない
+	//インターバル２
 	if (m_DamageWait % 4 >= 2)
 	{
 		return;
 	}
 	//描画矩形
 	CRectangle dr = m_SrcRect;
-	//反転フラグがONの場合描画矩形を反転させる
 	if (m_bReverse)
 	{
 		float tmp = dr.Right;
 		dr.Right = dr.Left;
 		dr.Left = tmp;
 	}
-	//テクスチャの描画
 	m_pTexture->Render(m_Pos.x - world.x, m_Pos.y - world.y, dr);
 }
 
@@ -185,7 +185,6 @@ void CEnemy::Render(Vector2 world) {
 /// </summary>
 /// <param name="world"></param>
 void CEnemy::RenderDebug(Vector2 world) {
-	//非表示
 	if (!m_bShow)
 	{
 		return;
@@ -214,12 +213,12 @@ void CEnemy::Damage(int dmg, bool bRev) {
 	m_DamageWait = ENEMY_DAMAGEWAIT;
 	if (bRev)
 	{
-		m_Move.x -= 5.0f;
+		m_MoveSpeed -= ENEMY_DAMAGESPEED;
 		m_bReverse = false;
 	}
 	else
 	{
-		m_Move.x = 5.0f;
+		m_MoveSpeed = ENEMY_DAMAGESPEED;
 		m_bReverse = true;
 	}
 	m_Motion.ChangeMotion(MOTION_DAMAGE);

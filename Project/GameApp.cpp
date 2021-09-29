@@ -81,13 +81,11 @@ MofBool CGameApp::Update(void) {
 		gpScene->Initialize();
 	}
 
-#ifdef _DEBUG
 	//F1キーでデバッグ表示の切り替え
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
 		m_bDebug = !m_bDebug;
 	}
-#endif // _DEBUG
 
 
 	return TRUE;
