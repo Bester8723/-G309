@@ -7,6 +7,7 @@
 *//**************************************************************************/
 #pragma once
 #include	"Mof.h"
+#include	"DebugManager.h"
 #include	"SceneBase.h"
 #include	"Player.h"
 #include	"Stage.h"
@@ -27,6 +28,7 @@ public:
 	bool Load()override;
 	void Initialize()override;
 	void Update()override;
+	void UpdateDebug();
 	void Render()override;
 	void RenderDebug()override;
 	void Release()override;

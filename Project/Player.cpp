@@ -326,12 +326,12 @@ bool CPlayer::CollisionEnemy(CEnemy& ene) {
 		m_DamageWait = PLAYER_DAMAGEWAIT;
 		if (prec.Left < erec.Left)
 		{
-			m_Move.x = -5.0f;
+			m_Move.x = -PLAYER_DAMAGESPEED;
 			m_bReverse = false;
 		}
 		else
 		{
-			m_Move.x = 5.0f;
+			m_Move.x = PLAYER_DAMAGESPEED;
 			m_bReverse = true;
 		}
 		m_Motion.ChangeMotion(MOTION_DAMAGE);
@@ -357,7 +357,7 @@ bool CPlayer::CollisionEnemy(CEnemy& ene) {
 /// アイテムとの当たり判定
 /// </summary>
 /// <param name="itm">判定を行うアイテム</param>
-/// <returns></returns>
+/// <returns>当たっていればtrue, 当たっていなければfalse</returns>
 bool CPlayer::CollisionItem(CItem& itm) {
 	if (!itm.GetShow())
 	{

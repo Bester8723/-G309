@@ -22,6 +22,7 @@
 #define		PLAYER_MAX_HP			160				//最大HP
 #define		PLAYER_DAMAGE_HP		20				//ダメージ受HP量
 #define		PLAYER_DAMAGEWAIT		30				//ダメージ待機時間
+#define		PLAYER_DAMAGESPEED		5.0f			//ダメージ受時バック速度
 
 class CPlayer {
 private:

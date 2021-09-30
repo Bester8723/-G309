@@ -115,6 +115,25 @@ void CSceneGame::Update() {
 	m_Stage.Update(m_Player);
 	//エフェクトの更新
 	m_EffectManager.Update();
+
+	//デバッグ更新
+	if (CDebugManager::Instance().GetDebugFlg())
+	{
+		UpdateDebug();
+	}
+}
+
+/// <summary>
+/// デバッグ更新
+/// </summary>
+void CSceneGame::UpdateDebug() {
+	//F2キーでゲームシーン初期化
+	if (g_pInput->IsKeyPush(MOFKEY_F2))
+	{
+		m_bEnd = true;
+		m_bChange = true;
+		m_NextScene = SCENENO_GAME;
+	}
 }
 
 /// <summary>
