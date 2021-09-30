@@ -262,7 +262,7 @@ void CStage::Render() {
 /// デバッグ描画
 /// </summary>
 void CStage::RenderDebug() {
-	CGraphicsUtilities::RenderString(10, 100, "スクロール X : %.0f , Y : %.0f", m_Scroll.x, m_Scroll.y);
+	CGraphicsUtilities::RenderString(10, 10, "スクロール X : %.0f , Y : %.0f", m_Scroll.x, m_Scroll.y);
 }
 
 /// <summary>

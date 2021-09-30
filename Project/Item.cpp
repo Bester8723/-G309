@@ -6,7 +6,6 @@
 															@author	池上　綾香
 *//**************************************************************************/
 #include "Item.h"
-#include	"Item.h"
 
 /// <summary>
 /// コンストラクタ
@@ -53,14 +52,11 @@ void CItem::Initialize(Vector2 pos, int type) {
 /// 更新
 /// </summary>
 void CItem::Update() {
-	//非表示
 	if (!m_bShow)
 	{
 		return;
 	}
-	//実際に座標を移動させる
 	m_Pos += m_Move;
-	//アニメーションの更新
 	m_Motion.AddTimer(CUtilities::GetFrameSecond());
 	m_SrcRect = m_Motion.GetSrcRect();
 }
@@ -78,12 +74,10 @@ void CItem::CollisionStage(Vector2 buried) {
 /// </summary>
 /// <param name="world">ワールドの変化</param>
 void CItem::Render(Vector2 world) {
-	//非表示
 	if (!m_bShow)
 	{
 		return;
 	}
-	//テクスチャの描画
 	m_pTexture->Render(m_Pos.x - world.x, m_Pos.y - world.y, m_SrcRect);
 }
 
@@ -92,7 +86,6 @@ void CItem::Render(Vector2 world) {
 /// </summary>
 /// <param name="world">ワールドの変化</param>
 void CItem::RenderDebug(Vector2 world) {
-	//非表示
 	if (!m_bShow)
 	{
 		return;

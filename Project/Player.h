@@ -17,7 +17,9 @@
 #define		PLAYER_JUMP				-10.0f			//ジャンプ初速
 #define		PLAYER_MAXJUMPCOUNT		2				//最大ジャンプ回数
 #define		PLAYER_RECTDECREASE		12				//当たり判定減衰幅
-#define		PLAYER_INI_HP			5				//初期HP
+#define		PLAYER_INI_HP			100				//初期HP
+#define		PLAYER_MAX_HP			160				//最大HP
+#define		PLAYER_DAMAGE_HP		20				//ダメージ受HP量
 #define		PLAYER_DAMAGEWAIT		30				//ダメージ待機時間
 
 class CPlayer {

@@ -100,6 +100,16 @@ void CPlayer::Initialize(Vector2 world) {
 /// 更新
 /// </summary>
 void CPlayer::Update() {
+	//HPがなくなると爆発の終了を待機して終了
+	if (m_HP <= 0)
+	{
+		if (!m_pEndEffect || !m_pEndEffect->GetShow())
+		{
+			m_bDead = true;
+		}
+		return;
+	}
+	//移動フラグ
 	m_bMove = false;
 	//着地、ダメージ中の場合の動作
 	if (m_Motion.GetMotionNo() == MOTION_JUMPEND || m_Motion.GetMotionNo() == MOTION_DAMAGE)
@@ -192,6 +202,12 @@ void CPlayer::UpdateMove(void) {
 /// 描画
 /// </summary>
 void CPlayer::Render(Vector2 world) {
+	//インターバル２
+	if (m_DamageWait % 4 >= 2)
+	{
+		return;
+	}
+
 	CRectangle dr = m_SrcRect;
 	if (m_bReverse)
 	{
@@ -217,6 +233,8 @@ void CPlayer::RenderDebug(Vector2 world) {
 	CGraphicsUtilities::RenderRect(
 		hr.Left - world.x, hr.Top - world.y,
 		hr.Right - world.x, hr.Bottom - world.y, MOF_COLOR_GREEN);
+	//HP表示
+	CGraphicsUtilities::RenderString(10, 30, "HP : %d", m_HP);
 }
 
 /// <summary>
@@ -264,29 +282,30 @@ void CPlayer::CollisionStage(Vector2 buried) {
 /// <param name="ene">判定を行う敵</param>
 /// <returns>当たっていればtrue, 当たっていなければfalse</returns>
 bool CPlayer::CollisionEnemy(CEnemy& ene) {
-	if (!ene.GetShow() || m_HP <= 0)
+	if (!ene.GetShow() || m_HP <= 0 || m_DamageWait > 0)
 	{
 		return FALSE;
 	}
-	CRectangle prec = GetRect();
+
+	CRectangle prec;
 	CRectangle erec = ene.GetRect();
 
 	//敵の矩形と自分の攻撃矩形で敵がダメージ
 	prec = GetAttackRect();
-	if (prec.CollisionRect(erec))
+	if (prec.CollisionRect(erec) && prec.Bottom < erec.Top + erec.GetHeight() * 0.7f && m_Move.y > 0)
 	{
 		ene.Damage();
 		if (g_pInput->IsKeyPush(MOFKEY_W))
 		{
 			Jump();
 		}
-		return true;
+		return TRUE;
 	}
-
 	//自分がダメージ
+	prec = GetRect();
 	if (prec.CollisionRect(erec))
 	{
-		//m_HP -= 5;
+		m_HP -= PLAYER_DAMAGE_HP;
 		m_DamageWait = PLAYER_DAMAGEWAIT;
 		if (prec.Left < erec.Left)
 		{
@@ -323,30 +342,31 @@ bool CPlayer::CollisionEnemy(CEnemy& ene) {
 /// <param name="itm">判定を行うアイテム</param>
 /// <returns></returns>
 bool CPlayer::CollisionItem(CItem& itm) {
-	//if (!itm.GetShow())
-	//{
-	//	return false;
-	//}
-	////アイテムの矩形と自分の矩形で当たり判定
-	//CRectangle prec = GetRect();
-	//CRectangle irec = itm.GetRect();
-	//if (prec.CollisionRect(irec))
-	//{
-	//	itm.SetShow(false);
-	//	switch (itm.GetType())
-	//	{
-	//	case ITEM_RECOVER:
-	//		m_HP += 30;
-	//		if (m_HP >= 100)
-	//		{
-	//			m_HP = 100;
-	//		}
-	//		break;
-	//	case ITEM_GOAL:
-	//		m_bGoal = true;
-	//		break;
-	//	}
-	//	return true;
-	//}
-	return false;
+	if (!itm.GetShow())
+	{
+		return FALSE;
+	}
+	CRectangle prec = GetRect();
+	CRectangle irec = itm.GetRect();
+	//アイテムの矩形と自分の矩形で当たり判定
+	if (prec.CollisionRect(irec))
+	{
+		itm.SetShow(false);
+		switch (itm.GetType())
+		{
+		case ITEMTYPE_CHARM:
+			m_HP += PLAYER_DAMAGE_HP;
+			if (m_HP >= PLAYER_MAX_HP)
+			{
+				m_HP = PLAYER_MAX_HP;
+			}
+			break;
+		case ITEMTYPE_JEWEL:
+			break;
+		default:
+			break;
+		}
+		return TRUE;
+	}
+	return FALSE;
 }

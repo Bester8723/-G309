@@ -10,10 +10,10 @@
 
 //アイテム種類列挙
 enum tag_ITEMTYPE {
-	ITEM_RECOVER,					//回復
-	ITEM_GOAL,						//ゴール
+	ITEMTYPE_CHARM,				//札
+	ITEMTYPE_JEWEL,				//宝玉
 
-	ITEM_TYPECOUNT,
+	ITEMTYPE_COUNT,
 };
 
 class CItem {
@@ -34,11 +34,11 @@ public:
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
 	void Release();
+	CRectangle GetRect() {
+		return CRectangle(m_Pos.x, m_Pos.y, m_Pos.x + m_SrcRect.GetWidth(), m_Pos.y + m_SrcRect.GetHeight());
+	}
 	void SetTexture(CTexture* pt) { m_pTexture = pt; }
 	bool GetShow() { return m_bShow; }
 	void SetShow(bool bs) { m_bShow = bs; }
 	int GetType() { return m_Type; }
-	CRectangle GetRect() {
-		return CRectangle(m_Pos.x, m_Pos.y, m_Pos.x + m_SrcRect.GetWidth(), m_Pos.y + m_SrcRect.GetHeight()); 
-	}
 };
