@@ -22,7 +22,7 @@ m_JumpCount(0),
 m_bJumping(false),
 m_bDead(false),
 m_HP(PLAYER_INI_HP),
-m_JuwelCount(0),
+m_JewelCount(0),
 m_DamageWait(0),
 m_pEffectManager(NULL),
 m_pEndEffect(NULL) {
@@ -94,6 +94,7 @@ void CPlayer::Initialize(Vector2 world) {
 	m_bJumping = false;
 	m_bDead = false;
 	m_HP = PLAYER_INI_HP;
+	m_JewelCount = 0;
 	m_DamageWait = 0;
 }
 
@@ -252,7 +253,8 @@ void CPlayer::RenderDebug(Vector2 world) {
 		hr.Left - world.x, hr.Top - world.y,
 		hr.Right - world.x, hr.Bottom - world.y, MOF_COLOR_GREEN);
 	//HP•\Ž¦
-	CGraphicsUtilities::RenderString(10, 30, "HP : %d", m_HP);
+	CGraphicsUtilities::RenderString(10, 35, "HP : %d", m_HP);
+	CGraphicsUtilities::RenderString(10, 60, "Jewel : %d", m_JewelCount);
 }
 
 /// <summary>
@@ -316,6 +318,7 @@ bool CPlayer::CollisionEnemy(CEnemy& ene) {
 		m_Move.y = PLAYER_STEPONENEMY;
 		if (g_pInput->IsKeyHold(MOFKEY_W))
 		{
+			m_JumpCount = 0;
 			Jump();
 		}
 		return TRUE;
@@ -381,6 +384,7 @@ bool CPlayer::CollisionItem(CItem& itm) {
 			}
 			break;
 		case ITEMTYPE_JEWEL:
+			m_JewelCount = MOF_CLIPING(m_JewelCount + 1, 0, PLAYER_MAXJEWEL);
 			break;
 		default:
 			break;

@@ -24,6 +24,7 @@
 #define		PLAYER_DAMAGE_HP		20				//ダメージ受HP量
 #define		PLAYER_DAMAGEWAIT		30				//ダメージ待機時間
 #define		PLAYER_DAMAGESPEED		5.0f			//ダメージ受時バック速度
+#define		PLAYER_MAXJEWEL			5				//最大宝玉数
 
 class CPlayer {
 private:
@@ -40,7 +41,7 @@ private:
 	bool						m_bJumping;
 	bool						m_bDead;
 	int							m_HP;
-	int							m_JuwelCount;
+	int							m_JewelCount;
 	int							m_DamageWait;
 	CEffectManager*				m_pEffectManager;
 	CEffect*					m_pEndEffect;
