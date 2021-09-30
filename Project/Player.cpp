@@ -22,6 +22,7 @@ m_JumpCount(0),
 m_bJumping(false),
 m_bDead(false),
 m_HP(PLAYER_INI_HP),
+m_JuwelCount(0),
 m_DamageWait(0),
 m_pEffectManager(NULL),
 m_pEndEffect(NULL) {

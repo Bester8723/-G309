@@ -39,6 +39,7 @@ private:
 	bool						m_bJumping;
 	bool						m_bDead;
 	int							m_HP;
+	int							m_JuwelCount;
 	int							m_DamageWait;
 	CEffectManager*				m_pEffectManager;
 	CEffect*					m_pEndEffect;
