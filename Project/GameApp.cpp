@@ -9,6 +9,7 @@
 
 //INCLUDE
 #include	"GameApp.h"
+#include	"DebugManager.h"
 #include	"GameDefine.h"
 #include	"SceneBase.h"
 #include	"SceneTitle.h"
@@ -16,8 +17,6 @@
 #include	"SceneGame.h"
 #include	"SceneResult.h"
 
-//デバッグ用フラグ
-bool m_bDebug = false;
 //シーンクラス
 CSceneBase* gpScene = NULL;
 
@@ -84,7 +83,8 @@ MofBool CGameApp::Update(void) {
 	//F1キーでデバッグ表示の切り替え
 	if (g_pInput->IsKeyPush(MOFKEY_F1))
 	{
-		m_bDebug = !m_bDebug;
+		bool flg = CDebugManager::Instance().GetDebugFlg();
+		CDebugManager::Instance().SetDebugFlg(!flg);
 	}
 
 
@@ -106,7 +106,7 @@ MofBool CGameApp::Render(void) {
 	//シーンの描画
 	gpScene->Render();
 	//シーンのデバッグ描画
-	if (m_bDebug)
+	if (CDebugManager::Instance().GetDebugFlg())
 	{
 		gpScene->RenderDebug();
 	}

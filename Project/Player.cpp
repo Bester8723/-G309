@@ -136,6 +136,12 @@ void CPlayer::Update() {
 	{
 		m_DamageWait--;
 	}
+
+	//デバッグ更新
+	if (CDebugManager::Instance().GetDebugFlg())
+	{
+		UpdateDebug();
+	}
 }
 
 /// <summary>
@@ -196,6 +202,17 @@ void CPlayer::UpdateMove(void) {
 	}
 	//重力の影響
 	m_Move.y = MOF_CLIPING(m_Move.y + GRAVITY, PLAYER_JUMP, MAXGRAVITY);
+}
+
+/// <summary>
+/// デバッグ更新
+/// </summary>
+void CPlayer::UpdateDebug() {
+	//１キーでHPをMAXにする
+	if (g_pInput->IsKeyPush(MOFKEY_1))
+	{
+		m_HP = PLAYER_MAX_HP;
+	}
 }
 
 /// <summary>

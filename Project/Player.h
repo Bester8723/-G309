@@ -7,6 +7,7 @@
 *//**************************************************************************/
 #pragma once
 #include	"Mof.h"
+#include	"DebugManager.h"
 #include	"GameDefine.h"
 #include	"Enemy.h"
 #include	"Item.h"
@@ -60,6 +61,7 @@ public:
 	void UpdateKey();
 	void Jump();
 	void UpdateMove();
+	void UpdateDebug();
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
 	void Release();
