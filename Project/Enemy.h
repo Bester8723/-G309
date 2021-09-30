@@ -10,9 +10,8 @@
 #include	"GameDefine.h"
 #include	"EffectManager.h"
 
-#define		ENEMY_INI_HP			5				//初期HP
-#define		ENEMY_DAMAGEWAIT		60				//ダメージ待機時間
 #define		ENEMY_RECTDECREASE		10				//当たり判定減衰幅
+#define		ENEMY_FALLSPEED			8.0f			//落下速度
 
 class CEnemy {
 private:
@@ -22,9 +21,8 @@ private:
 	CVector2				m_Pos;
 	bool					m_bShow;
 	bool					m_bReverse;
+	bool					m_bDead;
 	CRectangle				m_SrcRect;
-	int						m_HP;
-	int						m_DamageWait;
 	float					ENEMY_DAMAGESPEED;
 	CEffectManager*			m_pEffectManager;
 
@@ -57,14 +55,14 @@ public:
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
 	void Release();
-	void Damage(int dmg, bool bRev);
+	void Damage();
 	CRectangle GetRect() {
 		return CRectangle(
 			m_Pos.x + ENEMY_RECTDECREASE, m_Pos.y + ENEMY_RECTDECREASE, 
 			m_Pos.x + m_SrcRect.GetWidth() - ENEMY_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight());
 	}
 	void SetTexture(CTexture* pt) { m_pTexture = pt; }
-	bool GetShow(void) { return m_bShow; }
 	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
-	int GetDamageWait(void) { return m_DamageWait; }
+	bool GetShow() { return m_bShow; }
+	bool IsDead() { return m_bDead; }
 };

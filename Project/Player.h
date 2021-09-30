@@ -18,7 +18,7 @@
 #define		PLAYER_MAXJUMPCOUNT		2				//最大ジャンプ回数
 #define		PLAYER_RECTDECREASE		12				//当たり判定減衰幅
 #define		PLAYER_INI_HP			5				//初期HP
-#define		PLAYER_DAMAGEWAIT		60				//ダメージ待機時間
+#define		PLAYER_DAMAGEWAIT		30				//ダメージ待機時間
 
 class CPlayer {
 private:
@@ -56,6 +56,7 @@ public:
 	void Initialize(Vector2 world);
 	void Update();
 	void UpdateKey();
+	void Jump();
 	void UpdateMove();
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
@@ -63,6 +64,11 @@ public:
 	CRectangle GetRect() {
 		return CRectangle(
 			m_Pos.x + PLAYER_RECTDECREASE, m_Pos.y + PLAYER_RECTDECREASE, 
+			m_Pos.x + m_SrcRect.GetWidth() - PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight());
+	}
+	CRectangle GetAttackRect() {
+		return CRectangle(
+			m_Pos.x + PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight() - PLAYER_RECTDECREASE,
 			m_Pos.x + m_SrcRect.GetWidth() - PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight());
 	}
 	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }

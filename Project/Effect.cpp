@@ -110,7 +110,6 @@ void CEffect::Start(Vector2 pos) {
 
 	//設定したアニメーションを再生開始
 	m_Motion.ChangeMotion(0);
-
 }
 
 /**

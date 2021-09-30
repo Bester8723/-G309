@@ -121,6 +121,11 @@ void CPlayer::Update() {
 	//アニメーションの更新
 	m_Motion.AddTimer(CUtilities::GetFrameSecond());
 	m_SrcRect = m_Motion.GetSrcRect();
+	//ダメージ待機時間を進める
+	if (m_DamageWait > 0)
+	{
+		m_DamageWait--;
+	}
 }
 
 /// <summary>
@@ -152,11 +157,18 @@ void CPlayer::UpdateKey(void) {
 	//ジャンプ
 	if (g_pInput->IsKeyPush(MOFKEY_W) && m_JumpCount < PLAYER_MAXJUMPCOUNT)
 	{
-		m_bJumping = true;
-		m_JumpCount++;
-		m_Move.y = PLAYER_JUMP;
-		m_Motion.ChangeMotion(MOTION_JUMPSTART);
+		Jump();
 	}
+}
+
+/// <summary>
+/// ジャンプ
+/// </summary>
+void CPlayer::Jump() {
+	m_bJumping = true;
+	m_JumpCount++;
+	m_Move.y = PLAYER_JUMP;
+	m_Motion.ChangeMotion(MOTION_JUMPSTART);
 }
 
 /// <summary>
@@ -195,6 +207,16 @@ void CPlayer::Render(Vector2 world) {
 /// デバッグ描画
 /// </summary>
 void CPlayer::RenderDebug(Vector2 world) {
+	//当たり判定の表示
+	CRectangle hr = GetRect();
+	CGraphicsUtilities::RenderRect(
+		hr.Left - world.x, hr.Top - world.y,
+		hr.Right - world.x, hr.Bottom - world.y, MOF_COLOR_BLUE);
+	//攻撃範囲の表示
+	hr = GetAttackRect();
+	CGraphicsUtilities::RenderRect(
+		hr.Left - world.x, hr.Top - world.y,
+		hr.Right - world.x, hr.Bottom - world.y, MOF_COLOR_GREEN);
 }
 
 /// <summary>
@@ -248,9 +270,23 @@ bool CPlayer::CollisionEnemy(CEnemy& ene) {
 	}
 	CRectangle prec = GetRect();
 	CRectangle erec = ene.GetRect();
+
+	//敵の矩形と自分の攻撃矩形で敵がダメージ
+	prec = GetAttackRect();
 	if (prec.CollisionRect(erec))
 	{
-		m_HP -= 5;
+		ene.Damage();
+		if (g_pInput->IsKeyPush(MOFKEY_W))
+		{
+			Jump();
+		}
+		return true;
+	}
+
+	//自分がダメージ
+	if (prec.CollisionRect(erec))
+	{
+		//m_HP -= 5;
 		m_DamageWait = PLAYER_DAMAGEWAIT;
 		if (prec.Left < erec.Left)
 		{
@@ -277,13 +313,6 @@ bool CPlayer::CollisionEnemy(CEnemy& ene) {
 		}
 		return TRUE;
 	}
-	////敵の矩形と自分の攻撃矩形で敵がダメージ
-	//prec = GetAttackRect();
-	//if (prec.CollisionRect(erec))
-	//{
-	//	ene.Damage(5, m_bReverse);
-	//	return true;
-	//}
 
 	return FALSE;
 }
