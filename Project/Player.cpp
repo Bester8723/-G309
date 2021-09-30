@@ -300,7 +300,7 @@ void CPlayer::CollisionStage(Vector2 buried) {
 /// <param name="ene">”»’è‚ğs‚¤“G</param>
 /// <returns>“–‚½‚Á‚Ä‚¢‚ê‚Îtrue, “–‚½‚Á‚Ä‚¢‚È‚¯‚ê‚Îfalse</returns>
 bool CPlayer::CollisionEnemy(CEnemy& ene) {
-	if (!ene.GetShow() || m_HP <= 0 || m_DamageWait > 0)
+	if (ene.IsDead() || m_HP <= 0 || m_DamageWait > 0)
 	{
 		return FALSE;
 	}
@@ -313,7 +313,8 @@ bool CPlayer::CollisionEnemy(CEnemy& ene) {
 	if (prec.CollisionRect(erec) && prec.Bottom < erec.Top + erec.GetHeight() * 0.7f && m_Move.y > 0)
 	{
 		ene.Damage();
-		if (g_pInput->IsKeyPush(MOFKEY_W))
+		m_Move.y = PLAYER_STEPONENEMY;
+		if (g_pInput->IsKeyHold(MOFKEY_W))
 		{
 			Jump();
 		}
