@@ -47,7 +47,8 @@ bool CSceneGame::Load() {
 /// 初期化
 /// </summary>
 void CSceneGame::Initialize() {
-	Load();
+	//共通部
+	InitializeBase();
 	//ステージの状態初期化
 	m_Stage.Initialize(m_EnemyArray, m_ItemArray);
 	//プレイヤーの状態初期化
@@ -66,6 +67,8 @@ void CSceneGame::Initialize() {
 /// 更新
 /// </summary>
 void CSceneGame::Update() {
+	//共通部
+	UpdateBase();
 	//プレイヤーの更新
 	m_Player.Update();
 	//ステージとプレイヤーの当たり判定
@@ -162,6 +165,8 @@ void CSceneGame::Render() {
 	}
 	//エフェクトの描画
 	m_EffectManager.Render(scroll);
+	//共通部
+	RenderBase();
 }
 
 /// <summary>
@@ -213,11 +218,10 @@ void CSceneGame::Release() {
 }
 
 /// <summary>
-/// ゲーム終了を設定する
+/// ゲームシーン終了を設定する
 /// </summary>
 /// <param name="sceneNo">次に遷移するシーン番号</param>
 void CSceneGame::SetGameEnd(int sceneNo) {
-	m_bEnd = true;
 	m_bChange = true;
 	m_NextScene = sceneNo;
 }

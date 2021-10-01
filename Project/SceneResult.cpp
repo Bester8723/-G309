@@ -31,19 +31,24 @@ bool CSceneResult::Load() {
 /// ‰Šú‰»
 /// </summary>
 void CSceneResult::Initialize() {
+	//‹¤’Ê•”
+	InitializeBase();
 }
 
 /// <summary>
 /// XV
 /// </summary>
 void CSceneResult::Update() {
+	//‹¤’Ê•”
+	UpdateBase();
 }
 
 /// <summary>
 /// •`‰æ
 /// </summary>
 void CSceneResult::Render(void) {
-	CGraphicsUtilities::RenderFillRect(0, 0, 100, 100, MOF_COLOR_RED);
+	//‹¤’Ê•”
+	RenderBase();
 }
 
 /// <summary>
