@@ -6,9 +6,12 @@
 															@author	’rã@ˆ»
 *//**************************************************************************/
 #pragma once
-#include "SceneBase.h"
+#include	"SceneBase.h"
+#include	"GameEndManager.h"
 
 class CSceneResult : public CSceneBase {
+private:
+	int			m_GameEndNo;				//ƒQ[ƒ€I—¹”Ô†
 public:
 	CSceneResult();
 	~CSceneResult();

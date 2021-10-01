@@ -120,7 +120,7 @@ void CSceneGame::Update() {
 	m_EffectManager.Update();
 
 	//ゲーム終了確認
-	if (CGmeEndManager::Instance().IsGameEnd())
+	if (CGameEndManager::Instance().IsGameEnd())
 	{
 		SetGameEnd(SCENENO_RESULT);
 	}

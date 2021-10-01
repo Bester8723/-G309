@@ -10,7 +10,8 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-CSceneResult::CSceneResult() {
+CSceneResult::CSceneResult() :
+m_GameEndNo(0) {
 }
 
 /// <summary>
@@ -33,6 +34,8 @@ bool CSceneResult::Load() {
 void CSceneResult::Initialize() {
 	//共通部
 	InitializeBase();
+	//ゲーム終了番号を取得
+	m_GameEndNo = CGameEndManager::Instance().GetGameEndCondition();
 }
 
 /// <summary>
