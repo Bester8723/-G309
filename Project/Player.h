@@ -17,6 +17,7 @@
 #define		PLAYER_MAXSPEED			10.0f			//移動最大速度
 #define		PLAYER_JUMP				-10.0f			//ジャンプ初速
 #define		PLAYER_STEPONENEMY		-3.0f			//敵踏み初速
+#define		PLAYER_STEPJUMPSPEED	1.3f			//ジャンプ初速に乗算
 #define		PLAYER_MAXJUMPCOUNT		2				//最大ジャンプ回数
 #define		PLAYER_RECTDECREASE		12				//当たり判定減衰幅
 #define		PLAYER_INI_HP			100				//初期HP
@@ -76,7 +77,7 @@ public:
 	}
 	CRectangle GetAttackRect() {
 		return CRectangle(
-			m_Pos.x + PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight() - PLAYER_RECTDECREASE,
+			m_Pos.x + PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight() - PLAYER_RECTDECREASE * 0.5f,
 			m_Pos.x + m_SrcRect.GetWidth() - PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight());
 	}
 	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }

@@ -312,14 +312,15 @@ bool CPlayer::CollisionEnemy(CEnemy& ene) {
 
 	//敵の矩形と自分の攻撃矩形で敵がダメージ
 	prec = GetAttackRect();
-	if (prec.CollisionRect(erec) && prec.Bottom < erec.Top + erec.GetHeight() * 0.7f && m_Move.y > 0)
+	if (prec.CollisionRect(erec) && prec.Bottom < erec.Top + erec.GetHeight() * 0.8f && m_Move.y > 0)
 	{
 		ene.Damage();
 		m_Move.y = PLAYER_STEPONENEMY;
+		m_JumpCount = 0;
 		if (g_pInput->IsKeyHold(MOFKEY_W))
 		{
-			m_JumpCount = 0;
 			Jump();
+			m_Move.y *= PLAYER_STEPJUMPSPEED;
 		}
 		return TRUE;
 	}
