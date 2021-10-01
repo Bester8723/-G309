@@ -7,8 +7,9 @@
 *//**************************************************************************/
 #pragma once
 #include	"Mof.h"
-#include	"DebugManager.h"
 #include	"SceneBase.h"
+#include	"DebugManager.h"
+#include	"GmeEndManager.h"
 #include	"Player.h"
 #include	"Stage.h"
 #include	"Enemy.h"
@@ -32,4 +33,5 @@ public:
 	void Render()override;
 	void RenderDebug()override;
 	void Release()override;
+	void SetGameEnd(int sceneNo);
 };

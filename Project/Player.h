@@ -8,6 +8,7 @@
 #pragma once
 #include	"Mof.h"
 #include	"DebugManager.h"
+#include	"GmeEndManager.h"
 #include	"GameDefine.h"
 #include	"Enemy.h"
 #include	"Item.h"
@@ -25,7 +26,7 @@
 #define		PLAYER_DAMAGE_HP		20				//ダメージ受HP量
 #define		PLAYER_DAMAGEWAIT		30				//ダメージ待機時間
 #define		PLAYER_DAMAGESPEED		5.0f			//ダメージ受時バック速度
-#define		PLAYER_MAXJEWEL			5				//最大宝玉数
+#define		PLAYER_MAXJEWEL			1				//最大宝玉数
 
 class CPlayer {
 private:
@@ -70,6 +71,9 @@ public:
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
 	void Release();
+	void CollisionStage(Vector2 buried);
+	bool CollisionEnemy(CEnemy& ene);
+	bool CollisionItem(CItem& itm);
 	CRectangle GetRect() {
 		return CRectangle(
 			m_Pos.x + PLAYER_RECTDECREASE, m_Pos.y + PLAYER_RECTDECREASE, 
@@ -81,7 +85,5 @@ public:
 			m_Pos.x + m_SrcRect.GetWidth() - PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight());
 	}
 	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
-	void CollisionStage(Vector2 buried);
-	bool CollisionEnemy(CEnemy& ene);
-	bool CollisionItem(CItem& itm);
+	bool IsDead() { return m_bDead; }
 };

@@ -10,6 +10,9 @@
 //INCLUDE
 #include	"Mof.h"
 
+#define			GRAVITY					0.3f			//重力
+#define			MAXGRAVITY				20.0f			//最大重力加速
+
 //存在するシーンの列挙
 enum tag_SCENENO {
 	SCENENO_TITLE,
@@ -17,8 +20,15 @@ enum tag_SCENENO {
 	SCENENO_GAME,
 	SCENENO_RESULT,
 
-	COUNT_SCENENO,
+	SCENENO_COUNT,
 };
 
-#define			GRAVITY					0.3f			//重力
-#define			MAXGRAVITY				20.0f			//最大重力加速
+//ゲーム終了条件の列挙
+enum tag_GAMEENDNO {
+	GAMEENDNO_CONTINUE,
+	GAMEENDNO_HP,
+	GAMEENDNO_JEWEL,
+	GAMEENDNO_GAS,
+
+	GAMEENDNO_COUNT,
+};

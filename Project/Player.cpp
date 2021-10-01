@@ -108,6 +108,7 @@ void CPlayer::Update() {
 		if (!m_pEndEffect || !m_pEndEffect->GetShow())
 		{
 			m_bDead = true;
+			CGmeEndManager::Instance().SetGameEndCondition(GAMEENDNO_HP);
 		}
 		return;
 	}
@@ -312,7 +313,7 @@ bool CPlayer::CollisionEnemy(CEnemy& ene) {
 
 	//敵の矩形と自分の攻撃矩形で敵がダメージ
 	prec = GetAttackRect();
-	if (prec.CollisionRect(erec) && prec.Bottom < erec.Top + erec.GetHeight() * 0.8f && m_Move.y > 0)
+	if (prec.CollisionRect(erec) && prec.Bottom < erec.Top + erec.GetHeight() * 0.3f && m_Move.y > 0)
 	{
 		ene.Damage();
 		m_Move.y = PLAYER_STEPONENEMY;
@@ -385,7 +386,12 @@ bool CPlayer::CollisionItem(CItem& itm) {
 			}
 			break;
 		case ITEMTYPE_JEWEL:
-			m_JewelCount = MOF_CLIPING(m_JewelCount + 1, 0, PLAYER_MAXJEWEL);
+			m_JewelCount++;
+			if (m_JewelCount >= PLAYER_MAXJEWEL)
+			{
+				m_JewelCount = PLAYER_MAXJEWEL;
+				CGmeEndManager::Instance().SetGameEndCondition(GAMEENDNO_JEWEL);
+			}
 			break;
 		default:
 			break;
