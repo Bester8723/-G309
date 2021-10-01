@@ -11,7 +11,9 @@
 
 class CSceneResult : public CSceneBase {
 private:
-	int			m_GameEndNo;				//ゲーム終了番号
+	int				m_GameEndNo;			//ゲーム終了番号
+	CTexture		m_BackTex;				//背景テクスチャ
+	CTexture		m_BoardTex;				//スコア板テクスチャ
 public:
 	CSceneResult();
 	~CSceneResult();

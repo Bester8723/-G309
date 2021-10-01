@@ -11,7 +11,9 @@
 /// コンストラクタ
 /// </summary>
 CSceneResult::CSceneResult() :
-m_GameEndNo(0) {
+m_GameEndNo(0),
+m_BackTex(),
+m_BoardTex() {
 }
 
 /// <summary>
@@ -25,7 +27,9 @@ CSceneResult::~CSceneResult() {
 /// </summary>
 /// <returns>成功：true, 失敗：false</returns>
 bool CSceneResult::Load() {
-	return false;
+	if (!m_BoardTex.Load("result_titleText.png")) { return FALSE; }
+
+	return TRUE;
 }
 
 /// <summary>
@@ -50,6 +54,7 @@ void CSceneResult::Update() {
 /// 描画
 /// </summary>
 void CSceneResult::Render(void) {
+	m_BoardTex.Render(0, 0);
 	//共通部
 	RenderBase();
 }
@@ -58,11 +63,11 @@ void CSceneResult::Render(void) {
 /// デバッグ描画
 /// </summary>
 void CSceneResult::RenderDebug(void) {
-	CGraphicsUtilities::RenderString(10, 10, "リザルト画面");
 }
 
 /// <summary>
 /// 解放
 /// </summary>
 void CSceneResult::Release(void) {
+	m_BoardTex.Release();
 }
