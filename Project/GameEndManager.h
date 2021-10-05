@@ -9,13 +9,13 @@
 #include	"Mof.h"
 #include	"GameDefine.h"
 
-class CGmeEndManager {
+class CGameEndManager {
 private:
 	bool		m_bGameEnd;			//ゲーム終了フラグ
 	int			m_GameEndNo;		//ゲーム終了条件番号
 
-	CGmeEndManager();
-	~CGmeEndManager();
+	CGameEndManager();
+	~CGameEndManager();
 public:
 	void SetGameEndCondition(int endNo);
 	int GetGameEndCondition() { return m_GameEndNo; }
@@ -24,9 +24,9 @@ public:
 	/// <summary>
 	/// シングルトンインスタンスを取得するための唯一のアクセス
 	/// </summary>
-	static CGmeEndManager& Instance()
+	static CGameEndManager& Instance()
 	{
-		static CGmeEndManager obj;
+		static CGameEndManager obj;
 		return obj;
 	}
 };

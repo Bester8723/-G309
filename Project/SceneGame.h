@@ -9,7 +9,7 @@
 #include	"Mof.h"
 #include	"SceneBase.h"
 #include	"DebugManager.h"
-#include	"GmeEndManager.h"
+#include	"GameEndManager.h"
 #include	"Player.h"
 #include	"Stage.h"
 #include	"Enemy.h"
