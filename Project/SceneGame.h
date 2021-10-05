@@ -33,5 +33,4 @@ public:
 	void Render()override;
 	void RenderDebug()override;
 	void Release()override;
-	void SetGameEnd(int sceneNo);
 };

@@ -38,4 +38,9 @@ public:
 	bool IsEnd(void) { return m_bEnd; }
 	//シーンは遷移するか
 	bool IsChange(void) { return m_bChange; }
+	//次のシーンに遷移する
+	void SetNextScene(int sceneNo) {
+		m_bChange = true;
+		m_NextScene = sceneNo;
+	}
 };

@@ -122,7 +122,7 @@ void CSceneGame::Update() {
 	//ゲーム終了確認
 	if (CGameEndManager::Instance().IsGameEnd())
 	{
-		SetGameEnd(SCENENO_RESULT);
+		SetNextScene(SCENENO_RESULT);
 	}
 
 	//デバッグ更新
@@ -139,7 +139,7 @@ void CSceneGame::UpdateDebug() {
 	//F2キーでゲームシーン初期化
 	if (g_pInput->IsKeyPush(MOFKEY_F2))
 	{
-		SetGameEnd(SCENENO_GAME);
+		SetNextScene(SCENENO_GAME);
 	}
 }
 
@@ -215,13 +215,4 @@ void CSceneGame::Release() {
 	}
 	//エフェクトの解放
 	m_EffectManager.Release();
-}
-
-/// <summary>
-/// ゲームシーン終了を設定する
-/// </summary>
-/// <param name="sceneNo">次に遷移するシーン番号</param>
-void CSceneGame::SetGameEnd(int sceneNo) {
-	m_bChange = true;
-	m_NextScene = sceneNo;
 }
