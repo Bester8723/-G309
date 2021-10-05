@@ -8,7 +8,7 @@
 #pragma once
 #include	"Mof.h"
 #include	"DebugManager.h"
-#include	"GmeEndManager.h"
+#include	"GameEndManager.h"
 #include	"GameDefine.h"
 #include	"Enemy.h"
 #include	"Item.h"

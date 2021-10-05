@@ -108,7 +108,7 @@ void CPlayer::Update() {
 		if (!m_pEndEffect || !m_pEndEffect->GetShow())
 		{
 			m_bDead = true;
-			CGmeEndManager::Instance().SetGameEndCondition(GAMEENDNO_HP);
+			CGameEndManager::Instance().SetGameEndCondition(GAMEENDNO_HP);
 		}
 		return;
 	}
@@ -390,7 +390,7 @@ bool CPlayer::CollisionItem(CItem& itm) {
 			if (m_JewelCount >= PLAYER_MAXJEWEL)
 			{
 				m_JewelCount = PLAYER_MAXJEWEL;
-				CGmeEndManager::Instance().SetGameEndCondition(GAMEENDNO_JEWEL);
+				CGameEndManager::Instance().SetGameEndCondition(GAMEENDNO_JEWEL);
 			}
 			break;
 		default:
