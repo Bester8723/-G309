@@ -160,7 +160,7 @@ bool CStage::Load(char* pName) {
 /// <param name="pEnemy">“G</param>
 /// <param name="pItem">ƒAƒCƒeƒ€</param>
 void CStage::Initialize(CEnemy* pEnemy, CItem* pItem) {
-	m_Scroll = Vector2(10, m_ChipSize * m_ChipCnt.y - g_pGraphics->GetTargetHeight());
+	m_Scroll = Vector2(0, m_ChipSize * m_ChipCnt.y - g_pGraphics->GetTargetHeight());
 	int n = 0;
 	for (int y = 0; y < m_ChipCnt.y; y++)
 	{
