@@ -101,7 +101,13 @@ void CPlayer::Initialize(Vector2 world) {
 /// <summary>
 /// 更新
 /// </summary>
-void CPlayer::Update() {
+void CPlayer::Update(Vector2 gas) {
+	//瘴気に埋まると終了
+	if (m_Pos.y + m_SrcRect.GetHeight() * 0.5f > gas.y)
+	{
+		m_bDead = true;
+		CGameEndManager::Instance().SetGameEndCondition(GAMEENDNO_GAS);
+	}
 	//HPがなくなると爆発の終了を待機して終了
 	if (m_HP <= 0)
 	{

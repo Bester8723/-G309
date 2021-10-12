@@ -14,6 +14,7 @@
 #include	"Stage.h"
 #include	"Enemy.h"
 #include	"Item.h"
+#include	"Gas.h"
 #include	"EffectManager.h"
 
 class CSceneGame : public CSceneBase {
@@ -22,6 +23,7 @@ private:
 	CStage			m_Stage;				//ステージ
 	CEnemy*			m_EnemyArray;			//敵
 	CItem*			m_ItemArray;			//アイテム
+	CGas			m_Gas;					//瘴気
 	CEffectManager	m_EffectManager;		//エフェクト
 public:
 	CSceneGame();

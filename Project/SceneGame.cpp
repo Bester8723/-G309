@@ -16,6 +16,7 @@ m_Player(),
 m_Stage(),
 m_EnemyArray(),
 m_ItemArray(),
+m_Gas(),
 m_EffectManager() {
 }
 
@@ -38,6 +39,8 @@ bool CSceneGame::Load() {
 	m_EnemyArray = new CEnemy[m_Stage.GetEnemyCount()];
 	//アイテムメモリ確保
 	m_ItemArray = new CItem[m_Stage.GetItemCount()];
+	//瘴気素材読み込み
+	if (!m_Gas.Load()) { return FALSE; }
 	//エフェクトの素材読み込み
 	if (!m_EffectManager.Load()) { return FALSE; }
 	return TRUE;
@@ -53,6 +56,8 @@ void CSceneGame::Initialize() {
 	m_Stage.Initialize(m_EnemyArray, m_ItemArray);
 	//プレイヤーの状態初期化
 	m_Player.Initialize(m_Stage.GetScroll());
+	//瘴気の状態初期化
+	m_Gas.Initialize(m_Stage.GetScroll());
 	//エフェクトの状態初期化
 	m_EffectManager.Initialize();
 	//プレイヤーと敵にエフェクトクラスの設定
@@ -70,7 +75,7 @@ void CSceneGame::Update() {
 	//共通部
 	UpdateBase();
 	//プレイヤーの更新
-	m_Player.Update();
+	m_Player.Update(m_Gas.GetScroll());
 	//ステージとプレイヤーの当たり判定
 	Vector2 buried = Vector2(0, 0);
 	if (m_Stage.Collision(m_Player.GetRect(), buried))
@@ -114,6 +119,8 @@ void CSceneGame::Update() {
 	{
 		m_Player.CollisionItem(m_ItemArray[i]);
 	}
+	//瘴気の更新
+	m_Gas.Update();
 	//ステージの更新
 	m_Stage.Update(m_Player);
 	//エフェクトの更新
@@ -165,6 +172,8 @@ void CSceneGame::Render() {
 	}
 	//エフェクトの描画
 	m_EffectManager.Render(scroll);
+	//瘴気の描画
+	m_Gas.Render(scroll);
 	//共通部
 	RenderBase();
 }
@@ -215,4 +224,6 @@ void CSceneGame::Release() {
 	}
 	//エフェクトの解放
 	m_EffectManager.Release();
+	//瘴気の解放
+	m_Gas.Release();
 }

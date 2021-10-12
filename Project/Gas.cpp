@@ -12,8 +12,8 @@
 /// </summary>
 CGas::CGas() : 
 m_Tex(),
-m_Pos(0.0f, 0.0f),
-m_Move(0.0f, 0.0f) {
+m_Move(0.0f, 0.0f),
+m_Scroll(0.0f, 0.0f) {
 }
 
 /// <summary>
@@ -27,36 +27,52 @@ CGas::~CGas() {
 /// </summary>
 /// <returns>成功：true, 失敗：false</returns>
 bool CGas::Load() {
+	if (!m_Tex.Load("Texture/Game/Gas.png")) { return FALSE; }
+
 	return TRUE;
 }
 
 /// <summary>
 /// 初期化
 /// </summary>
-void CGas::Initialize() {
+void CGas::Initialize(Vector2 world) {
+	m_Move = Vector2(SPEEDX, -SPEEDY);
+	m_Scroll = Vector2(world.x, world.y + g_pGraphics->GetTargetHeight() - STARTPOS);
 }
 
 /// <summary>
 /// 更新
 /// </summary>
 void CGas::Update() {
+	m_Scroll += m_Move;
+	if (m_Scroll.y <= 0)
+	{
+		m_Move.y = 0;
+		m_Scroll.y = 0;
+	}
 }
 
 /// <summary>
 /// 描画
 /// </summary>
-void CGas::Render() {
-
+void CGas::Render(Vector2 world) {
+	int scw = g_pGraphics->GetTargetWidth();
+	int wn = m_Tex.GetWidth();
+	for (float x = ((int)-m_Scroll.x % wn) - wn; x < scw; x += wn)
+	{
+		m_Tex.Render(x - world.x, m_Scroll.y - world.y);
+	}
 }
 
 /// <summary>
 /// デバッグ描画
 /// </summary>
-void CGas::RenderDebug() {
+void CGas::RenderDebug(Vector2 world) {
 }
 
 /// <summary>
 /// 解放
 /// </summary>
 void CGas::Release() {
+	m_Tex.Release();
 }

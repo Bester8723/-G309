@@ -63,7 +63,7 @@ public:
 	~CPlayer();
 	bool Load();
 	void Initialize(Vector2 world);
-	void Update();
+	void Update(Vector2 gas);
 	void UpdateKey();
 	void Jump();
 	void UpdateMove();
