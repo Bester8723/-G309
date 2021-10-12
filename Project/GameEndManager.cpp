@@ -27,5 +27,12 @@ CGameEndManager::~CGameEndManager() {
 /// <param name="endNo">èIóπî‘çÜ</param>
 void CGameEndManager::SetGameEndCondition(int endNo) {
 	m_GameEndNo = endNo;
-	m_bGameEnd = true;
+	if (endNo == GAMEENDNO_CONTINUE)
+	{
+		m_bGameEnd = false;
+	}
+	else
+	{
+		m_bGameEnd = true;
+	}
 }
