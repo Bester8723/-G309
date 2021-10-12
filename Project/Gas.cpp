@@ -83,7 +83,7 @@ void CGas::Release() {
 /// <param name="itm">”»’è‚·‚éƒAƒCƒeƒ€</param>
 /// <returns>–„‚Ü‚Á‚Ä‚¢‚ê‚Îtrue, –„‚Ü‚Á‚Ä‚¢‚È‚¯‚ê‚Îfalse</returns>
 bool CGas::CollisionItem(CItem& itm) {
-	if (!itm.GetShow() && itm.GetType() != ITEMTYPE_JEWEL)
+	if (!itm.GetShow() || itm.GetType() != ITEMTYPE_JEWEL)
 	{
 		return FALSE;
 	}
