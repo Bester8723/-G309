@@ -39,8 +39,9 @@ CPlayer::~CPlayer() {
 /// </summary>
 /// <returns>成功：true, 失敗：false</returns>
 bool CPlayer::Load() {
+	CUtilities::SetCurrentDirectory("Resource\Texture\Game");
 	//プレイヤーテクスチャの読み込み
-	if (!m_Tex.Load("player.png")) { return FALSE; }
+	if (!m_Tex.Load("Player.png")) { return FALSE; }
 	//アニメーションを作成
 	SpriteAnimationCreate anim[] = {
 		{

@@ -12,6 +12,7 @@ class CGas {
 private:
 	CTexture		m_Tex;
 	CVector2		m_Pos;
+	CVector2		m_Move;
 public:
 	CGas();
 	~CGas();

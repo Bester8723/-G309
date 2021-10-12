@@ -12,7 +12,8 @@
 /// </summary>
 CGas::CGas() : 
 m_Tex(),
-m_Pos(0.0f, 0.0f) {
+m_Pos(0.0f, 0.0f),
+m_Move(0.0f, 0.0f) {
 }
 
 /// <summary>
@@ -26,6 +27,7 @@ CGas::~CGas() {
 /// </summary>
 /// <returns>ê¨å˜ÅFtrue, é∏îsÅFfalse</returns>
 bool CGas::Load() {
+	CUtilities::SetCurrentDirectory("Resource\Texture\Game");
 	return TRUE;
 }
 
@@ -45,6 +47,7 @@ void CGas::Update() {
 /// ï`âÊ
 /// </summary>
 void CGas::Render() {
+
 }
 
 /// <summary>

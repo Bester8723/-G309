@@ -27,6 +27,7 @@ CSceneResult::~CSceneResult() {
 /// </summary>
 /// <returns>¬Œ÷Ftrue, ¸”sFfalse</returns>
 bool CSceneResult::Load() {
+	CUtilities::SetCurrentDirectory("Resource\Texture\Result");
 	if (!m_BoardTex.Load("result_titleText.png")) { return FALSE; }
 
 	return TRUE;
