@@ -296,10 +296,22 @@ void CPlayer::CollisionStage(Vector2 buried) {
 	if (buried.x < 0 && m_Move.x > 0)
 	{
 		m_Move.x = 0;
+		if (g_pInput->IsKeyHold(MOFKEY_W))
+		{
+			m_Move.x = -20.0f;
+			m_JumpCount = 0;
+			Jump();
+		}
 	}
 	else if (buried.x > 0 && m_Move.x < 0)
 	{
 		m_Move.x = 0;
+		if (g_pInput->IsKeyHold(MOFKEY_W))
+		{
+			m_Move.x = 20.0f;
+			m_JumpCount = 0;
+			Jump();
+		}
 	}
 }
 
