@@ -1,6 +1,6 @@
 /*************************************************************************//*!
 
-					@file	SceneStageSelect.h
+					@file	SceneModeSelect.h
 					@brief	ステージセレクト画面。
 
 															@author	池上　綾香
@@ -8,10 +8,10 @@
 #pragma once
 #include "SceneBase.h"
 
-class CSceneStageSelect : public CSceneBase {
+class CSceneModeSelect : public CSceneBase {
 public:
-	CSceneStageSelect();
-	~CSceneStageSelect();
+	CSceneModeSelect();
+	~CSceneModeSelect();
 	bool Load()override;
 	void Initialize()override;
 	void Update()override;

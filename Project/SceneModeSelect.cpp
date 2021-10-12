@@ -1,59 +1,59 @@
 /*************************************************************************//*!
 
-					@file	SceneStageSelect.cpp
+					@file	SceneModeSelect.cpp
 					@brief	ステージセレクト画面。
 
 															@author	池上　綾香
 *//**************************************************************************/
-#include "SceneStageSelect.h"
+#include "SceneModeSelect.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-CSceneStageSelect::CSceneStageSelect() {
+CSceneModeSelect::CSceneModeSelect() {
 }
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-CSceneStageSelect::~CSceneStageSelect() {
+CSceneModeSelect::~CSceneModeSelect() {
 }
 
 /// <summary>
 /// 読み込み
 /// </summary>
 /// <returns>成功：true, 失敗：false</returns>
-bool CSceneStageSelect::Load() {
+bool CSceneModeSelect::Load() {
 	return false;
 }
 
 /// <summary>
 /// 初期化
 /// </summary>
-void CSceneStageSelect::Initialize() {
+void CSceneModeSelect::Initialize() {
 }
 
 /// <summary>
 /// 更新
 /// </summary>
-void CSceneStageSelect::Update() {
+void CSceneModeSelect::Update() {
 }
 
 /// <summary>
 /// 描画
 /// </summary>
-void CSceneStageSelect::Render(void) {
+void CSceneModeSelect::Render(void) {
 }
 
 /// <summary>
 /// デバッグ描画
 /// </summary>
-void CSceneStageSelect::RenderDebug(void) {
+void CSceneModeSelect::RenderDebug(void) {
 	CGraphicsUtilities::RenderString(10, 10, "ゲーム画面");
 }
 
 /// <summary>
 /// 解放
 /// </summary>
-void CSceneStageSelect::Release(void) {
+void CSceneModeSelect::Release(void) {
 }

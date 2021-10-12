@@ -13,7 +13,7 @@
 #include	"GameDefine.h"
 #include	"SceneBase.h"
 #include	"SceneTitle.h"
-#include	"SceneStageSelect.h"
+#include	"SceneModeSelect.h"
 #include	"SceneGame.h"
 #include	"SceneResult.h"
 
@@ -65,7 +65,7 @@ MofBool CGameApp::Update(void) {
 			gpScene = new CSceneTitle();
 			break;
 		case SCENENO_STAGESELECT:
-			gpScene = new CSceneStageSelect();
+			gpScene = new CSceneModeSelect();
 			break;
 		case SCENENO_GAME:
 			gpScene = new CSceneGame();

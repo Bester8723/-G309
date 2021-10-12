@@ -30,7 +30,7 @@
     <ClCompile Include="SceneGame.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SceneStageSelect.cpp">
+    <ClCompile Include="SceneModeSelect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SceneResult.cpp">
@@ -80,7 +80,7 @@
     <ClInclude Include="SceneGame.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SceneStageSelect.h">
+    <ClInclude Include="SceneModeSelect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SceneResult.h">

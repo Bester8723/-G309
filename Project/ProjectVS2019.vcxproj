@@ -113,7 +113,7 @@
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneResult.cpp" />
-    <ClCompile Include="SceneStageSelect.cpp" />
+    <ClCompile Include="SceneModeSelect.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -133,7 +133,7 @@
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneResult.h" />
-    <ClInclude Include="SceneStageSelect.h" />
+    <ClInclude Include="SceneModeSelect.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Stage.h" />
   </ItemGroup>
