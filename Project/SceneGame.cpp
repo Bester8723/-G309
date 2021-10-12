@@ -118,6 +118,7 @@ void CSceneGame::Update() {
 	for (int i = 0; i < m_Stage.GetItemCount(); i++)
 	{
 		m_Player.CollisionItem(m_ItemArray[i]);
+		m_Gas.CollisionItem(m_ItemArray[i]);
 	}
 	//á‹C‚ÌXV
 	m_Gas.Update();

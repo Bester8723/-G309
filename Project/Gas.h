@@ -7,6 +7,8 @@
 *//**************************************************************************/
 #pragma once
 #include	"Mof.h"
+#include	"GameEndManager.h"
+#include	"Item.h"
 
 #define				SPEEDX			1.0f
 #define				SPEEDY			0.5f
@@ -26,5 +28,6 @@ public:
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
 	void Release();
+	bool CollisionItem(CItem& itm);
 	Vector2 GetScroll() { return m_Scroll; }
 };

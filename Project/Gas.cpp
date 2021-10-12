@@ -76,3 +76,22 @@ void CGas::RenderDebug(Vector2 world) {
 void CGas::Release() {
 	m_Tex.Release();
 }
+
+/// <summary>
+/// アイテムとの当たり判定
+/// </summary>
+/// <param name="itm">判定するアイテム</param>
+/// <returns>埋まっていればtrue, 埋まっていなければfalse</returns>
+bool CGas::CollisionItem(CItem& itm) {
+	if (!itm.GetShow() && itm.GetType() != ITEMTYPE_JEWEL)
+	{
+		return FALSE;
+	}
+	if (itm.GetRect().Top > m_Scroll.y)
+	{
+		itm.SetShow(false);
+		CGameEndManager::Instance().SetGameEndCondition(GAMEENDNO_GAS);
+		return TRUE;
+	}
+	return FALSE;
+}
