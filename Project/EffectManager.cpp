@@ -26,11 +26,10 @@ CEffectManager::~CEffectManager() {
  * 利用するテクスチャを読み込む。
  */
 bool CEffectManager::Load(void) {
-	CUtilities::SetCurrentDirectory("Resource\Texture\Effect");
 	char* name[] = {
-		"effect01.png",
-		"effect02.png",
-		"effect03.png",
+		"Texture/Effect/effect01.png",
+		"Texture/Effect/effect02.png",
+		"Texture/Effect/effect03.png",
 	};
 	for (int i = 0; i < EFC_TYPECOUNT; i++)
 	{

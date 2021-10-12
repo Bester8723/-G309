@@ -33,7 +33,7 @@ bool CSceneGame::Load() {
 	//プレイヤー素材の読み込み
 	if (!m_Player.Load()) { return FALSE; }
 	//ステージ素材の読み込み
-	if (!m_Stage.Load("Resource\Data\Stage1.txt")) { return FALSE; }
+	if (!m_Stage.Load("Data/Stage1.txt")) { return FALSE; }
 	//敵メモリ確保
 	m_EnemyArray = new CEnemy[m_Stage.GetEnemyCount()];
 	//アイテムメモリ確保

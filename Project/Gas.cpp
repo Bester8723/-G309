@@ -27,7 +27,6 @@ CGas::~CGas() {
 /// </summary>
 /// <returns>¬Œ÷Ftrue, ¸”sFfalse</returns>
 bool CGas::Load() {
-	CUtilities::SetCurrentDirectory("Resource\Texture\Game");
 	return TRUE;
 }
 

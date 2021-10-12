@@ -6,6 +6,8 @@
 															@author	池上　綾香
 *//**************************************************************************/
 #include "SceneBase.h"
+#include	"Mof.h"
+#include	<string>
 
 /// <summary>
 /// コンストラクタ
