@@ -13,7 +13,8 @@
 CSceneResult::CSceneResult() :
 m_GameEndNo(0),
 m_BackTex(),
-m_BoardTex() {
+m_BoardTex(),
+m_ResultTex() {
 }
 
 /// <summary>
@@ -27,7 +28,19 @@ CSceneResult::~CSceneResult() {
 /// </summary>
 /// <returns>¬Œ÷Ftrue, ¸”sFfalse</returns>
 bool CSceneResult::Load() {
-	if (!m_BoardTex.Load("Texture/Result/result_titleText.png")) { return FALSE; }
+	if (!m_BackTex.Load("Texture/Result/result_BackGround.png")) { return FALSE; }
+	if (!m_BoardTex.Load("Texture/Result/ResultPaper.png")) { return FALSE; }
+	char* str;
+	switch (m_GameEndNo)
+	{
+	case GAMEENDNO_CONTINUE: break;
+	case GAMEENDNO_CLEAR:	str = "Texture/Result/GameClearStr.png";		break;
+	case GAMEENDNO_HP:		str = "Texture/Result/GameOverStr_HP.png";		break;
+	case GAMEENDNO_JEWEL:	str = "Texture/Result/GameOverStr_Jewel.png";	break;
+	case GAMEENDNO_GAS:		str = "Texture/Result/GameOverStr_Gas.png";		break;
+	default: break;
+	}
+	if (!m_ResultTex.Load(str)) { return FALSE; }
 
 	return TRUE;
 }
@@ -36,10 +49,9 @@ bool CSceneResult::Load() {
 /// ‰Šú‰»
 /// </summary>
 void CSceneResult::Initialize() {
-	//‹¤’Ê•”
-	InitializeBase();
 	//ƒQ[ƒ€I—¹”Ô†‚ğæ“¾
 	m_GameEndNo = CGameEndManager::Instance().GetGameEndCondition();
+	InitializeBase();
 }
 
 /// <summary>
@@ -59,7 +71,9 @@ void CSceneResult::Update() {
 /// •`‰æ
 /// </summary>
 void CSceneResult::Render(void) {
-	m_BoardTex.Render(0, 0);
+	m_BackTex.Render(0, 0);
+	m_BoardTex.Render(200, 100);
+	m_ResultTex.Render(300, 150);
 	RenderBase();
 }
 
@@ -73,5 +87,7 @@ void CSceneResult::RenderDebug(void) {
 /// ‰ğ•ú
 /// </summary>
 void CSceneResult::Release(void) {
+	m_BackTex.Release();
 	m_BoardTex.Release();
+	m_ResultTex.Release();
 }

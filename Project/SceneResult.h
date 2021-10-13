@@ -14,6 +14,7 @@ private:
 	int				m_GameEndNo;			//ゲーム終了番号
 	CTexture		m_BackTex;				//背景テクスチャ
 	CTexture		m_BoardTex;				//スコア板テクスチャ
+	CTexture		m_ResultTex;			//結果の文言
 public:
 	CSceneResult();
 	~CSceneResult();

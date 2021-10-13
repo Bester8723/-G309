@@ -90,7 +90,7 @@ bool CGas::CollisionItem(CItem& itm) {
 	if (itm.GetRect().Top > m_Scroll.y)
 	{
 		itm.SetShow(false);
-		CGameEndManager::Instance().SetGameEndCondition(GAMEENDNO_GAS);
+		CGameEndManager::Instance().SetGameEndCondition(GAMEENDNO_JEWEL);
 		return TRUE;
 	}
 	return FALSE;

@@ -409,7 +409,7 @@ bool CPlayer::CollisionItem(CItem& itm) {
 			if (m_JewelCount >= PLAYER_MAXJEWEL)
 			{
 				m_JewelCount = PLAYER_MAXJEWEL;
-				CGameEndManager::Instance().SetGameEndCondition(GAMEENDNO_JEWEL);
+				CGameEndManager::Instance().SetGameEndCondition(GAMEENDNO_CLEAR);
 			}
 			break;
 		default:
