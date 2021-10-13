@@ -7,25 +7,23 @@
 *//**************************************************************************/
 #include "EffectManager.h"
 
-/**
- * コンストラクタ
- *
- */
+/// <summary>
+/// コンストラクタ
+/// </summary>
 CEffectManager::CEffectManager() {
 }
 
-/**
- * デストラクタ
- *
- */
+/// <summary>
+/// デストラクタ
+/// </summary>
 CEffectManager::~CEffectManager() {
 }
 
-/**
- * 読み込み
- * 利用するテクスチャを読み込む。
- */
-bool CEffectManager::Load(void) {
+/// <summary>
+/// 読み込み
+/// </summary>
+/// <returns>成功すればtrue, 失敗すればfalse</returns>
+bool CEffectManager::Load() {
 	char* name[] = {
 		"Texture/Effect/effect01.png",
 		"Texture/Effect/effect02.png",
@@ -35,17 +33,16 @@ bool CEffectManager::Load(void) {
 	{
 		if (!m_Texture[i].Load(name[i]))
 		{
-			return false;
+			return FALSE;
 		}
 	}
-	return true;
+	return TRUE;
 }
 
-/**
- * 初期化
- * パラメーターや座標を初期化する。
- */
-void CEffectManager::Initialize(void) {
+/// <summary>
+/// 初期化
+/// </summary>
+void CEffectManager::Initialize() {
 	//エフェクトの基礎設定
 	for (int j = 0; j < EFC_TYPECOUNT; j++)
 	{
@@ -57,15 +54,13 @@ void CEffectManager::Initialize(void) {
 	}
 }
 
-/**
- * 開始
- * 座標を設定してモーションを開始する。
- *
- * 引数
- * [in]			px					X座標
- * [in]			py					Y座標
- * [in]			type				エフェクトタイプ
- */
+/// <summary>
+/// 開始
+/// 座標を設定してモーションを開始する。
+/// </summary>
+/// <param name="pos">座標</param>
+/// <param name="type">エフェクトタイプ</param>
+/// <returns>エフェクトのポインタ</returns>
 CEffect* CEffectManager::Start(Vector2 pos, int type) {
 	for (int i = 0; i < EFFECTCOUNT; i++)
 	{
@@ -82,11 +77,10 @@ CEffect* CEffectManager::Start(Vector2 pos, int type) {
 	return NULL;
 }
 
-/**
- * 更新
- *
- */
-void CEffectManager::Update(void) {
+/// <summary>
+/// 更新
+/// </summary>
+void CEffectManager::Update() {
 	for (int j = 0; j < EFC_TYPECOUNT; j++)
 	{
 		for (int i = 0; i < EFFECTCOUNT; i++)
@@ -96,13 +90,10 @@ void CEffectManager::Update(void) {
 	}
 }
 
-/**
- * 描画
- *
- * 引数
- * [in]			wx					ワールドの変化
- * [in]			wy					ワールドの変化
- */
+/// <summary>
+/// 描画
+/// </summary>
+/// <param name="world">ワールドの変化</param>
 void CEffectManager::Render(Vector2 world) {
 	for (int j = 0; j < EFC_TYPECOUNT; j++)
 	{
@@ -113,14 +104,10 @@ void CEffectManager::Render(Vector2 world) {
 	}
 }
 
-
-/**
- * デバッグ描画
- *
- * 引数
- * [in]			wx					ワールドの変化
- * [in]			wy					ワールドの変化
- */
+/// <summary>
+/// デバッグ描画
+/// </summary>
+/// <param name="world">ワールドの変化</param>
 void CEffectManager::RenderDebug(Vector2 world) {
 	for (int j = 0; j < EFC_TYPECOUNT; j++)
 	{
@@ -131,11 +118,10 @@ void CEffectManager::RenderDebug(Vector2 world) {
 	}
 }
 
-/**
- * 解放
- *
- */
-void CEffectManager::Release(void) {
+/// <summary>
+/// 解放
+/// </summary>
+void CEffectManager::Release() {
 	for (int j = 0; j < EFC_TYPECOUNT; j++)
 	{
 		for (int i = 0; i < EFFECTCOUNT; i++)

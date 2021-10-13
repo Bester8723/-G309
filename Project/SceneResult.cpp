@@ -46,7 +46,6 @@ void CSceneResult::Initialize() {
 /// çXêV
 /// </summary>
 void CSceneResult::Update() {
-	//ã§í ïî
 	UpdateBase();
 
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
@@ -61,7 +60,6 @@ void CSceneResult::Update() {
 /// </summary>
 void CSceneResult::Render(void) {
 	m_BoardTex.Render(0, 0);
-	//ã§í ïî
 	RenderBase();
 }
 

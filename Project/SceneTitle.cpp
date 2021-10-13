@@ -10,7 +10,9 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-CSceneTitle::CSceneTitle() {
+CSceneTitle::CSceneTitle() : 
+CSceneBase(),
+m_BackTex() {
 }
 
 /// <summary>
@@ -24,26 +26,35 @@ CSceneTitle::~CSceneTitle() {
 /// </summary>
 /// <returns>成功：true, 失敗：false</returns>
 bool CSceneTitle::Load() {
-	return false;
+	if (!m_BackTex.Load("Texture/Title/title_BackGround.png")) { return FALSE; }
+
+	return TRUE;
 }
 
 /// <summary>
 /// 初期化
 /// </summary>
 void CSceneTitle::Initialize() {
+	InitializeBase();
 }
 
 /// <summary>
 /// 更新
 /// </summary>
 void CSceneTitle::Update() {
-	
+	UpdateBase();
+	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
+	{
+		SetNextScene(SCENENO_GAME);
+	}
 }
 
 /// <summary>
 /// 描画
 /// </summary>
 void CSceneTitle::Render(void) {
+	m_BackTex.Render(0, 0);
+	RenderBase();
 }
 
 /// <summary>
@@ -57,4 +68,5 @@ void CSceneTitle::RenderDebug(void) {
 /// 解放
 /// </summary>
 void CSceneTitle::Release(void) {
+	m_BackTex.Release();
 }

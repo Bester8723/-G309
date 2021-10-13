@@ -6,9 +6,12 @@
 															@author	írè„Å@àªçÅ
 *//**************************************************************************/
 #pragma once
-#include "SceneBase.h"
+#include	"SceneBase.h"
+#include	"GameEndManager.h"
 
 class CSceneTitle : public CSceneBase {
+private:
+	CTexture			m_BackTex;
 public:
 	CSceneTitle();
 	~CSceneTitle();

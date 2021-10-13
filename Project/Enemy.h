@@ -15,22 +15,22 @@
 
 class CEnemy {
 private:
-	CTexture*				m_pTexture;
-	CSpriteMotionController	m_Motion;
-	int						m_Type;
-	CVector2				m_Pos;
-	bool					m_bShow;
-	bool					m_bReverse;
-	bool					m_bDead;
-	CRectangle				m_SrcRect;
-	float					ENEMY_DAMAGESPEED;
-	CEffectManager*			m_pEffectManager;
+	CTexture*					m_pTexture;
+	CSpriteMotionController		m_Motion;
+	int							m_Type;
+	CVector2					m_Pos;
+	bool						m_bShow;
+	bool						m_bReverse;
+	bool						m_bDead;
+	CRectangle					m_SrcRect;
+	float						ENEMY_DAMAGESPEED;
+	CEffectManager*				m_pEffectManager;
 
-	CVector2				ENEMY_INI_POS;			//初期位置
-	float					ENEMY_QUAKE;			//移動距離
-	float					ENEMY_INI_SPEED;		//初期移動速度
-	float					m_MoveSpeed;			//移動速度
-	float					m_MoveTime;				//加算時間
+	CVector2					ENEMY_INI_POS;			//初期位置
+	float						ENEMY_QUAKE;			//移動距離
+	float						ENEMY_INI_SPEED;		//初期移動速度
+	float						m_MoveSpeed;			//移動速度
+	float						m_MoveTime;				//加算時間
 
 	//モーション種類定義
 	enum tag_MOTION {

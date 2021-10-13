@@ -14,18 +14,16 @@
 
 class CEffectManager {
 private:
-	//エフェクト
-	CEffect		m_Effect[EFFECTCOUNT][EFC_TYPECOUNT];
-	//エフェクト画像
-	CTexture	m_Texture[EFC_TYPECOUNT];
+	CEffect		m_Effect[EFFECTCOUNT][EFC_TYPECOUNT];			//エフェクト
+	CTexture	m_Texture[EFC_TYPECOUNT];						//エフェクト画像
 public:
 	CEffectManager();
 	~CEffectManager();
-	bool Load(void);
-	void Initialize(void);
+	bool Load();
+	void Initialize();
 	CEffect* Start(Vector2 pos, int type);
-	void Update(void);
+	void Update();
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
-	void Release(void);
+	void Release();
 };

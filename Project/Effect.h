@@ -20,21 +20,21 @@ enum tag_EFFECTTYPE {
 
 class CEffect {
 private:
-	CTexture* m_pTexture;
-	CSpriteMotionController	m_Motion;
-	CVector2				m_Pos;
-	bool					m_bShow;
-	CRectangle				m_SrcRect;
+	CTexture*					m_pTexture;
+	CSpriteMotionController		m_Motion;
+	CVector2					m_Pos;
+	bool						m_bShow;
+	CRectangle					m_SrcRect;
 
 public:
 	CEffect();
 	~CEffect();
 	void Initialize(int type);
 	void Start(Vector2 pos);
-	void Update(void);
+	void Update();
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
-	void Release(void);
+	void Release();
 	void SetTexture(CTexture* pt) { m_pTexture = pt; }
-	bool GetShow(void) { return m_bShow; }
+	bool GetShow() { return m_bShow; }
 };

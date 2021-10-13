@@ -8,10 +8,9 @@
 #include "Effect.h"
 #include "EffectManager.h"
 
-/**
- * コンストラクタ
- *
- */
+/// <summary>
+/// コンストラクタ
+/// </summary>
 CEffect::CEffect() :
 m_pTexture(NULL),
 m_Motion(),
@@ -20,20 +19,16 @@ m_bShow(false),
 m_SrcRect() {
 }
 
-/**
- * デストラクタ
- *
- */
+/// <summary>
+/// デストラクタ
+/// </summary>
 CEffect::~CEffect() {
 }
 
-/**
- * 開始
- * パラメーターや座標を初期化する。
- *
- * 引数
- * [in]			type				タイプ
- */
+/// <summary>
+/// 初期化
+/// </summary>
+/// <param name="type">タイプ</param>
 void CEffect::Initialize(int type) {
 	m_Pos = Vector2(0, 0);
 	m_bShow = false;
@@ -89,14 +84,11 @@ void CEffect::Initialize(int type) {
 	}
 }
 
-/**
- * 開始
- * 座標を設定してモーションを開始する。
- *
- * 引数
- * [in]			px					X座標
- * [in]			py					Y座標
- */
+/// <summary>
+/// 開始
+/// 座標を設定してモーションを開始する。
+/// </summary>
+/// <param name="pos">座標</param>
 void CEffect::Start(Vector2 pos) {
 	//表示矩形を取得
 	m_SrcRect = m_Motion.GetSrcRect();
@@ -112,11 +104,10 @@ void CEffect::Start(Vector2 pos) {
 	m_Motion.ChangeMotion(0);
 }
 
-/**
- * 更新
- *
- */
-void CEffect::Update(void) {
+/// <summary>
+/// 更新
+/// </summary>
+void CEffect::Update() {
 	//非表示
 	if (!m_bShow)
 	{
@@ -132,13 +123,10 @@ void CEffect::Update(void) {
 	}
 }
 
-/**
- * 描画
- *
- * 引数
- * [in]			wx					ワールドの変化
- * [in]			wy					ワールドの変化
- */
+/// <summary>
+/// 描画
+/// </summary>
+/// <param name="world">ワールドの変化</param>
 void CEffect::Render(Vector2 world) {
 	//非表示
 	if (!m_bShow)
@@ -148,25 +136,20 @@ void CEffect::Render(Vector2 world) {
 	m_pTexture->Render(m_Pos.x - world.x, m_Pos.y - world.y, m_SrcRect);
 }
 
-/**
- * デバッグ描画
- *
- * 引数
- * [in]			wx					ワールドの変化
- * [in]			wy					ワールドの変化
- */
+/// <summary>
+/// デバッグ描画
+/// </summary>
+/// <param name="world">ワールドの変化</param>
 void CEffect::RenderDebug(Vector2 world) {
-	//非表示
 	if (!m_bShow)
 	{
 		return;
 	}
 }
 
-/**
- * 解放
- *
- */
-void CEffect::Release(void) {
+/// <summary>
+/// 解放
+/// </summary>
+void CEffect::Release() {
 	m_Motion.Release();
 }
