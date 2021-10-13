@@ -18,13 +18,13 @@ enum tag_ITEMTYPE {
 
 class CItem {
 private:
-	CTexture*				m_pTexture;
-	CSpriteMotionController	m_Motion;
-	int						m_Type;
-	CVector2				m_Pos;
-	CVector2				m_Move;
-	bool					m_bShow;
-	CRectangle				m_SrcRect;
+	CTexture*					m_pTexture;
+	CSpriteMotionController		m_Motion;
+	int							m_Type;
+	CVector2					m_Pos;
+	CVector2					m_Move;
+	bool						m_bShow;
+	CRectangle					m_SrcRect;
 public:
 	CItem();
 	~CItem();

@@ -39,7 +39,6 @@ CPlayer::~CPlayer() {
 /// </summary>
 /// <returns>成功：true, 失敗：false</returns>
 bool CPlayer::Load() {
-	//プレイヤーテクスチャの読み込み
 	if (!m_Tex.Load("Texture/Game/Player.png")) { return FALSE; }
 	//アニメーションを作成
 	SpriteAnimationCreate anim[] = {
@@ -130,10 +129,12 @@ void CPlayer::Update(Vector2 gas) {
 			m_Motion.ChangeMotion(MOTION_WAIT);
 		}
 	}
+	//それ以外、キー入力更新
 	else
 	{
 		UpdateKey();
 	}
+	//移動更新
 	UpdateMove();
 	m_Pos += m_Move;
 	m_Pos.x = MOF_CLIPING(m_Pos.x, 0, SCREEN_WIDTH - m_SrcRect.GetWidth());
