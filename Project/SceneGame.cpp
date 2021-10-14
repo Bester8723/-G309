@@ -82,6 +82,12 @@ void CSceneGame::Update() {
 	{
 		m_Player.CollisionStage(buried);
 	}
+	//壁ジャンプ用当たり判定
+	buried = Vector2(0, 0);
+	if (m_Stage.CollisionWall(m_Player.GetWallJumpRect(), buried))
+	{
+		m_Player.CollisionWallJump(buried);
+	}
 	//敵の更新
 	for (int i = 0; i < m_Stage.GetEnemyCount(); i++)
 	{

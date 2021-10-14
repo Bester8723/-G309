@@ -50,6 +50,23 @@ void CGas::Update() {
 		m_Move.y = 0;
 		m_Scroll.y = 0;
 	}
+
+	//デバッグ更新
+	if (CDebugManager::Instance().GetDebugFlg())
+	{
+		UpdateDebug();
+	}
+}
+
+/// <summary>
+/// デバッグ更新
+/// </summary>
+void CGas::UpdateDebug() {
+	//２キーでガスのTrigger
+	if (g_pInput->IsKeyPush(MOFKEY_2))
+	{
+		m_Move.y = (m_Move.y == 0) ? m_Move.y = -SPEEDY : m_Move.y = 0;
+	}
 }
 
 /// <summary>

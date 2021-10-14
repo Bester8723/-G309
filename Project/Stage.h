@@ -45,6 +45,7 @@ public:
 	void RenderDebug();
 	void Release();
 	bool Collision(CRectangle r, Vector2& buried);
+	bool CollisionWall(CRectangle r, Vector2& buried);
 	Vector2 GetScroll() { return m_Scroll; }
 	int GetEnemyCount() { return m_EnemyCount; }
 	int GetItemCount() { return m_ItemCount; }

@@ -17,6 +17,9 @@
 #define		PLAYER_SPEED			0.3f			//移動速度
 #define		PLAYER_MAXSPEED			10.0f			//移動最大速度
 #define		PLAYER_JUMP				-10.0f			//ジャンプ初速
+#define		PLAYER_WALLJUMP			10.0f			//壁ジャンプ初速
+#define		PLAYER_WALLWIDTH		2				//壁ジャンプ用矩形の幅増分
+#define		PLAYER_WALLRECT			0.7f			//壁ジャンプ用矩形の高さ減分
 #define		PLAYER_STEPONENEMY		-3.0f			//敵踏み初速
 #define		PLAYER_STEPJUMPSPEED	1.3f			//ジャンプ初速に乗算
 #define		PLAYER_MAXJUMPCOUNT		2				//最大ジャンプ回数
@@ -41,6 +44,7 @@ private:
 	bool						m_bMove;
 	int							m_JumpCount;
 	bool						m_bJumping;
+	bool						m_bWallJumping;
 	bool						m_bDead;
 	int							m_HP;
 	int							m_JewelCount;
@@ -65,12 +69,13 @@ public:
 	void Initialize(Vector2 world);
 	void Update(Vector2 gas);
 	void UpdateKey();
-	void Jump();
 	void UpdateMove();
 	void UpdateDebug();
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
 	void Release();
+	void Jump();
+	void CollisionWallJump(Vector2 buried);
 	void CollisionStage(Vector2 buried);
 	bool CollisionEnemy(CEnemy& ene);
 	bool CollisionItem(CItem& itm);
@@ -83,6 +88,11 @@ public:
 		return CRectangle(
 			m_Pos.x + PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight() - PLAYER_RECTDECREASE * 0.5f,
 			m_Pos.x + m_SrcRect.GetWidth() - PLAYER_RECTDECREASE, m_Pos.y + m_SrcRect.GetHeight());
+	}
+	CRectangle GetWallJumpRect() {
+		return CRectangle(
+			m_Pos.x - PLAYER_WALLWIDTH, m_Pos.y + m_SrcRect.GetHeight() * PLAYER_WALLRECT,
+			m_Pos.x + m_SrcRect.GetWidth() + PLAYER_WALLWIDTH, m_Pos.y + m_SrcRect.GetHeight());
 	}
 	void SetEffectManager(CEffectManager* pmng) { m_pEffectManager = pmng; }
 	bool IsDead() { return m_bDead; }

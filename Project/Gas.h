@@ -7,6 +7,7 @@
 *//**************************************************************************/
 #pragma once
 #include	"Mof.h"
+#include	"DebugManager.h"
 #include	"GameEndManager.h"
 #include	"Item.h"
 
@@ -25,6 +26,7 @@ public:
 	bool Load();
 	void Initialize(Vector2 world);
 	void Update();
+	void UpdateDebug();
 	void Render(Vector2 world);
 	void RenderDebug(Vector2 world);
 	void Release();
