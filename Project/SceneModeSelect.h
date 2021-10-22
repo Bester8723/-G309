@@ -6,9 +6,18 @@
 															@author	írè„Å@àªçÅ
 *//**************************************************************************/
 #pragma once
-#include "SceneBase.h"
+#include	"SceneBase.h"
+#include	"GameDefine.h"
 
 class CSceneModeSelect : public CSceneBase {
+private:
+	CTexture			m_StoryBgTex;
+	CTexture			m_EndlessBgTex;
+	CTexture			m_StoryOnButton;
+	CTexture			m_StoryOffButton;
+	CTexture			m_EndlessOnButton;
+	CTexture			m_EndlessOffButton;
+	int					m_ModeSelectNo;
 public:
 	CSceneModeSelect();
 	~CSceneModeSelect();

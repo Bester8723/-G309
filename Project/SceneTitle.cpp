@@ -31,7 +31,6 @@ bool CSceneTitle::Load() {
 	if (!m_BackTex.Load("Texture/Title/title_BackGround.png")) { return FALSE; }
 	if (!m_TitleLogo.Load("Texture/Title/Logo_Title.png")) { return FALSE; }
 	if (!m_StartButton.Load("Texture/Title/Btn_GameStart.png")) { return FALSE; }
-
 	return TRUE;
 }
 

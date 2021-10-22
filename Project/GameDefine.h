@@ -13,7 +13,7 @@
 #define			GRAVITY					0.3f			//重力
 #define			MAXGRAVITY				20.0f			//最大重力加速
 
-//存在するシーンの列挙
+//シーンの列挙
 enum tag_SCENENO {
 	SCENENO_TITLE,
 	SCENENO_STAGESELECT,
@@ -21,6 +21,14 @@ enum tag_SCENENO {
 	SCENENO_RESULT,
 
 	SCENENO_COUNT,
+};
+
+//モードの列挙
+enum tag_MODENO {
+	MODENO_STORY,
+	MODENO_ENDLESS,
+
+	MODENO_COUNT,
 };
 
 //ゲーム終了条件の列挙
