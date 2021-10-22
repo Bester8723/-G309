@@ -20,7 +20,6 @@ m_Move(0.0f, 0.0f),
 m_bMove(false),
 m_JumpCount(0),
 m_bJumping(false),
-m_bWallJumping(false),
 m_bDead(false),
 m_HP(PLAYER_INI_HP),
 m_JewelCount(0),
@@ -92,7 +91,6 @@ void CPlayer::Initialize(Vector2 world) {
 	m_bMove = false;
 	m_JumpCount = 0;
 	m_bJumping = false;
-	m_bWallJumping = false;
 	m_bDead = false;
 	m_HP = PLAYER_INI_HP;
 	m_JewelCount = 0;
@@ -164,9 +162,8 @@ void CPlayer::UpdateKey(void) {
 	if (g_pInput->IsKeyHold(MOFKEY_A))
 	{
 		m_bMove = true;
-		m_bWallJumping = false;
 		m_bReverse = true;
-		m_Move.x = MOF_CLIPING(m_Move.x - PLAYER_SPEED, -PLAYER_MAXSPEED, PLAYER_MAXSPEED);
+		m_Move.x = MOF_CLIPING(m_Move.x - PLAYER_SPEED, -PLAYER_MAXSPEED, 0);
 		if (m_Motion.GetMotionNo() == MOTION_WAIT)
 		{
 			m_Motion.ChangeMotion(MOTION_MOVE);
@@ -176,9 +173,8 @@ void CPlayer::UpdateKey(void) {
 	else if (g_pInput->IsKeyHold(MOFKEY_D))
 	{
 		m_bMove = true;
-		m_bWallJumping = false;
 		m_bReverse = false;
-		m_Move.x = MOF_CLIPING(m_Move.x + PLAYER_SPEED, -PLAYER_MAXSPEED, PLAYER_MAXSPEED);
+		m_Move.x = MOF_CLIPING(m_Move.x + PLAYER_SPEED, 0, PLAYER_MAXSPEED);
 		if (m_Motion.GetMotionNo() == MOTION_WAIT)
 		{
 			m_Motion.ChangeMotion(MOTION_MOVE);
@@ -196,7 +192,7 @@ void CPlayer::UpdateKey(void) {
 /// </summary>
 void CPlayer::UpdateMove(void) {
 	//移動がなければ減速処理
-	if (!m_bMove && !m_bWallJumping)
+	if (!m_bMove)
 	{
 		m_Move.x = MOF_LERP(m_Move.x, 0, PLAYER_SPEED);
 		if (m_Move.x < abs(0.05f) && m_Motion.GetMotionNo() == MOTION_MOVE)
@@ -204,10 +200,6 @@ void CPlayer::UpdateMove(void) {
 			m_Move.x = 0.0f;
 			m_Motion.ChangeMotion(MOTION_WAIT);
 		}
-	}
-	else if (!m_bMove && m_bWallJumping)
-	{
-		m_Move.x = MOF_LERP(m_Move.x, 0, 0.1f);
 	}
 	//重力の影響
 	m_Move.y = MOF_CLIPING(m_Move.y + GRAVITY, PLAYER_JUMP, MAXGRAVITY);
@@ -259,13 +251,9 @@ void CPlayer::RenderDebug(Vector2 world) {
 	CGraphicsUtilities::RenderRect(
 		hr.Left - world.x, hr.Top - world.y,
 		hr.Right - world.x, hr.Bottom - world.y, MOF_COLOR_GREEN);
-	//壁ジャンプ範囲の表示
-	hr = GetWallJumpRect();
-	CGraphicsUtilities::RenderRect(
-		hr.Left - world.x, hr.Top - world.y,
-		hr.Right - world.x, hr.Bottom - world.y, MOF_COLOR_BLACK);
 	//HP表示
 	CGraphicsUtilities::RenderString(10, 35, "HP : %d", m_HP);
+	//宝玉数表示
 	CGraphicsUtilities::RenderString(10, 60, "Jewel : %d", m_JewelCount);
 }
 
@@ -285,29 +273,6 @@ void CPlayer::Jump() {
 	m_JumpCount++;
 	m_Move.y = PLAYER_JUMP;
 	m_Motion.ChangeMotion(MOTION_JUMPSTART);
-}
-
-/// <summary>
-/// 壁ジャンプ用当たり判定
-/// </summary>
-/// <param name="buried">埋まり量</param>
-void CPlayer::CollisionWallJump(Vector2 buried) {
-	bool flg = g_pInput->IsKeyPush(MOFKEY_W);
-	if (!flg || buried.x == 0)
-	{
-		return;
-	}
-	if (buried.x < 0)
-	{
-		m_Move.x = -PLAYER_WALLJUMP;
-	}
-	else if (buried.x > 0)
-	{
-		m_Move.x = PLAYER_WALLJUMP;
-	}
-	m_bWallJumping = true;
-	m_JumpCount = 0;
-	Jump();
 }
 
 /// <summary>
