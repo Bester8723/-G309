@@ -32,7 +32,7 @@ MofBool CGameApp::Initialize(void) {
 	CUtilities::SetCurrentDirectory("Resource");
 
 	//Å‰‚ÉŽÀs‚³‚ê‚éƒV[ƒ“‚Ì‰Šú‰»
-	gpScene = new CSceneGame();
+	gpScene = new CSceneTitle();
 	gpScene->Initialize();
 
 	return TRUE;

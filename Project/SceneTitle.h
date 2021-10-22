@@ -7,11 +7,13 @@
 *//**************************************************************************/
 #pragma once
 #include	"SceneBase.h"
-#include	"GameEndManager.h"
+#include	"GameDefine.h"
 
 class CSceneTitle : public CSceneBase {
 private:
 	CTexture			m_BackTex;
+	CTexture			m_TitleLogo;
+	CTexture			m_StartButton;
 public:
 	CSceneTitle();
 	~CSceneTitle();

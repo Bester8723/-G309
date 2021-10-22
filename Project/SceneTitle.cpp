@@ -12,7 +12,9 @@
 /// </summary>
 CSceneTitle::CSceneTitle() : 
 CSceneBase(),
-m_BackTex() {
+m_BackTex(),
+m_TitleLogo(),
+m_StartButton() {
 }
 
 /// <summary>
@@ -27,6 +29,8 @@ CSceneTitle::~CSceneTitle() {
 /// <returns>ê¨å˜ÅFtrue, é∏îsÅFfalse</returns>
 bool CSceneTitle::Load() {
 	if (!m_BackTex.Load("Texture/Title/title_BackGround.png")) { return FALSE; }
+	if (!m_TitleLogo.Load("Texture/Title/Logo_Title.png")) { return FALSE; }
+	if (!m_StartButton.Load("Texture/Title/Btn_GameStart.png")) { return FALSE; }
 
 	return TRUE;
 }
@@ -54,6 +58,9 @@ void CSceneTitle::Update() {
 /// </summary>
 void CSceneTitle::Render(void) {
 	m_BackTex.Render(0, 0);
+	Vector2 halfPos(g_pGraphics->GetTargetWidth() * 0.5f, g_pGraphics->GetTargetHeight() * 0.5f);
+	m_TitleLogo.Render(halfPos.x, halfPos.y * 0.5f, TEXALIGN_CENTERCENTER);
+	m_StartButton.Render(halfPos.x, halfPos.y * 1.5f, TEXALIGN_CENTERCENTER);
 	RenderBase();
 }
 
@@ -69,4 +76,6 @@ void CSceneTitle::RenderDebug(void) {
 /// </summary>
 void CSceneTitle::Release(void) {
 	m_BackTex.Release();
+	m_TitleLogo.Release();
+	m_StartButton.Release();
 }
