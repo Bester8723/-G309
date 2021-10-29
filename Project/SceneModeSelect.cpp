@@ -11,13 +11,14 @@
 /// コンストラクタ
 /// </summary>
 CSceneModeSelect::CSceneModeSelect() : 
+CSceneBase(),
 m_StoryBgTex(),
 m_EndlessBgTex(),
 m_StoryOnButton(),
 m_StoryOffButton(),
 m_EndlessOnButton(),
 m_EndlessOffButton(),
-m_ModeSelectNo(0) {
+m_ModeNo(0) {
 }
 
 /// <summary>
@@ -45,6 +46,7 @@ bool CSceneModeSelect::Load() {
 /// </summary>
 void CSceneModeSelect::Initialize() {
 	InitializeBase();
+	m_ModeNo = MODENO_STORY;
 }
 
 /// <summary>
@@ -55,7 +57,18 @@ void CSceneModeSelect::Update() {
 
 	if (g_pInput->IsKeyPush(MOFKEY_UP))
 	{
+		m_ModeNo--;
+		if (m_ModeNo < 0) { m_ModeNo = 0; }
+	}
+	else if (g_pInput->IsKeyPush(MOFKEY_DOWN))
+	{
+		m_ModeNo++;
+		if (m_ModeNo >= MODENO_COUNT) { m_ModeNo = MODENO_COUNT - 1; }
+	}
 
+	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
+	{
+		SetNextScene(SCENENO_GAME);
 	}
 }
 
@@ -63,6 +76,19 @@ void CSceneModeSelect::Update() {
 /// 描画
 /// </summary>
 void CSceneModeSelect::Render(void) {
+	switch (m_ModeNo)
+	{
+	case MODENO_STORY:
+		m_StoryBgTex.Render(0, 0);
+		m_StoryOnButton.Render(100, 100);
+		m_EndlessOffButton.Render(100, 200);
+		break;
+	case MODENO_ENDLESS:
+		m_EndlessBgTex.Render(0, 0);
+		m_StoryOffButton.Render(100, 100);
+		m_EndlessOnButton.Render(100, 200);
+		break;
+	}
 
 	RenderBase();
 }

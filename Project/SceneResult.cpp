@@ -11,6 +11,7 @@
 /// コンストラクタ
 /// </summary>
 CSceneResult::CSceneResult() :
+CSceneBase(),
 m_GameEndNo(0),
 m_BackTex(),
 m_BoardTex(),
@@ -28,8 +29,8 @@ CSceneResult::~CSceneResult() {
 /// </summary>
 /// <returns>成功：true, 失敗：false</returns>
 bool CSceneResult::Load() {
-	if (!m_BackTex.Load("Texture/Result/result_BackGround.png")) { return FALSE; }
-	if (!m_BoardTex.Load("Texture/Result/ResultPaper.png")) { return FALSE; }
+	if (!m_BackTex.Load("Texture/Result/result_BackGround.png"))	{ return FALSE; }
+	if (!m_BoardTex.Load("Texture/Result/ResultPaper.png"))			{ return FALSE; }
 	char* str;
 	switch (m_GameEndNo)
 	{

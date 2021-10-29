@@ -28,8 +28,8 @@ CSceneTitle::~CSceneTitle() {
 /// </summary>
 /// <returns>ê¨å˜ÅFtrue, é∏îsÅFfalse</returns>
 bool CSceneTitle::Load() {
-	if (!m_BackTex.Load("Texture/Title/title_BackGround.png")) { return FALSE; }
-	if (!m_TitleLogo.Load("Texture/Title/Logo_Title.png")) { return FALSE; }
+	if (!m_BackTex.Load("Texture/Title/title_BackGround.png"))	{ return FALSE; }
+	if (!m_TitleLogo.Load("Texture/Title/Logo_Title.png"))		{ return FALSE; }
 	if (!m_StartButton.Load("Texture/Title/Btn_GameStart.png")) { return FALSE; }
 	return TRUE;
 }
@@ -48,7 +48,7 @@ void CSceneTitle::Update() {
 	UpdateBase();
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
-		SetNextScene(SCENENO_GAME);
+		SetNextScene(SCENENO_MODESELECT);
 	}
 }
 

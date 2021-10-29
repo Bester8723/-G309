@@ -64,7 +64,7 @@ MofBool CGameApp::Update(void) {
 		case SCENENO_TITLE:
 			gpScene = new CSceneTitle();
 			break;
-		case SCENENO_STAGESELECT:
+		case SCENENO_MODESELECT:
 			gpScene = new CSceneModeSelect();
 			break;
 		case SCENENO_GAME:
