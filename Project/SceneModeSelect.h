@@ -8,6 +8,7 @@
 #pragma once
 #include	"SceneBase.h"
 #include	"GameDefine.h"
+#include	"GameModeManager.h"
 
 class CSceneModeSelect : public CSceneBase {
 private:

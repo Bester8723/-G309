@@ -64,7 +64,7 @@ void CSceneModeSelect::Update() {
 	//モード切替時、黒画面を挟む
 	if (m_bChangeMode)
 	{
-		m_BgAlpha += 255 / 30.0f;
+		m_BgAlpha += 255 / 15.0f;
 		if (m_BgAlpha > 255)
 		{
 			m_BgAlpha = 255;
@@ -74,7 +74,7 @@ void CSceneModeSelect::Update() {
 	}
 	else if (m_BgAlpha > 0 && !m_bChangeMode)
 	{
-		m_BgAlpha -= 255 / 30.0f;
+		m_BgAlpha -= 255 / 15.0f;
 		if (m_BgAlpha < 0) { m_BgAlpha = 0; }
 	}
 
@@ -98,6 +98,7 @@ void CSceneModeSelect::Update() {
 	//Enterキーでゲームシーンへ遷移
 	else if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
+		CGameModeManager::Instance().SetPlayMode(m_NowModeNo);
 		SetNextScene(SCENENO_GAME);
 	}
 }
