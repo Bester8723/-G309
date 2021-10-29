@@ -53,7 +53,7 @@ void CEnemy::Initialize(Vector2 pos, int type) {
 	switch (m_Type)
 	{
 	case	ENEMYTYPE_HORIZONTAL:	ENEMY_INI_SPEED = 3.0f;		break;
-	case	ENEMYTYPE_VERTICAL:		ENEMY_INI_SPEED = 5.0f;		break;
+	case	ENEMYTYPE_VERTICAL:		ENEMY_INI_SPEED = 2.0f;		break;
 	default:						ENEMY_INI_SPEED = 3.0f;		break;
 	}
 	m_MoveSpeed = ENEMY_INI_SPEED;
@@ -63,8 +63,8 @@ void CEnemy::Initialize(Vector2 pos, int type) {
 		{
 			"à⁄ìÆ",
 			0,0,
-			60,64,
-			TRUE,{ { 5,0,0 },{ 5,1,0 },{ 5,2,0 },{ 5,3,0 }, }
+			128,128,
+			TRUE,{ { 1,0,0 },{ 7,1,0 },{ 7,2,0 },{ 7,3,0 },{ 7,4,0 },{ 7,5,0 },{ 7,6,0 },{ 7,7,0 }, }
 		},
 		{
 			"É_ÉÅÅ[ÉW",
