@@ -17,7 +17,10 @@ private:
 	CTexture			m_StoryOffButton;
 	CTexture			m_EndlessOnButton;
 	CTexture			m_EndlessOffButton;
-	int					m_ModeNo;
+	int					m_NowModeNo;
+	int					m_NextModeNo;
+	bool				m_bChangeMode;
+	float				m_BgAlpha;
 public:
 	CSceneModeSelect();
 	~CSceneModeSelect();

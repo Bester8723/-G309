@@ -18,8 +18,11 @@ m_StoryOnButton(),
 m_StoryOffButton(),
 m_EndlessOnButton(),
 m_EndlessOffButton(),
-m_ModeNo(0) {
-}
+m_NowModeNo(0),
+m_NextModeNo(0),
+m_bChangeMode(false),
+m_BgAlpha(0.0f) 
+{}
 
 /// <summary>
 /// デストラクタ
@@ -46,7 +49,10 @@ bool CSceneModeSelect::Load() {
 /// </summary>
 void CSceneModeSelect::Initialize() {
 	InitializeBase();
-	m_ModeNo = MODENO_STORY;
+	m_NowModeNo = MODENO_STORY;
+	m_NextModeNo = MODENO_STORY;
+	m_bChangeMode = false;
+	m_BgAlpha = 0.0f;
 }
 
 /// <summary>
@@ -55,18 +61,42 @@ void CSceneModeSelect::Initialize() {
 void CSceneModeSelect::Update() {
 	UpdateBase();
 
+	//モード切替時、黒画面を挟む
+	if (m_bChangeMode)
+	{
+		m_BgAlpha += 255 / 30.0f;
+		if (m_BgAlpha > 255)
+		{
+			m_BgAlpha = 255;
+			m_bChangeMode = false;
+			m_NowModeNo = m_NextModeNo;
+		}
+	}
+	else if (m_BgAlpha > 0 && !m_bChangeMode)
+	{
+		m_BgAlpha -= 255 / 30.0f;
+		if (m_BgAlpha < 0) { m_BgAlpha = 0; }
+	}
+
+	//モード切替中は操作を受け付けない
+	if (m_BgAlpha > 0)
+	{
+		return;
+	}
+
+	//上下キーでモード切替操作
 	if (g_pInput->IsKeyPush(MOFKEY_UP))
 	{
-		m_ModeNo--;
-		if (m_ModeNo < 0) { m_ModeNo = 0; }
+		m_NextModeNo = MOF_CLIPING(m_NowModeNo - 1, 0, MODENO_COUNT - 1);
+		if (m_NextModeNo != m_NowModeNo){ m_bChangeMode = true; }
 	}
 	else if (g_pInput->IsKeyPush(MOFKEY_DOWN))
 	{
-		m_ModeNo++;
-		if (m_ModeNo >= MODENO_COUNT) { m_ModeNo = MODENO_COUNT - 1; }
+		m_NextModeNo = MOF_CLIPING(m_NowModeNo + 1, 0, MODENO_COUNT - 1);
+		if (m_NextModeNo != m_NowModeNo) { m_bChangeMode = true; }
 	}
-
-	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
+	//Enterキーでゲームシーンへ遷移
+	else if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		SetNextScene(SCENENO_GAME);
 	}
@@ -76,7 +106,7 @@ void CSceneModeSelect::Update() {
 /// 描画
 /// </summary>
 void CSceneModeSelect::Render(void) {
-	switch (m_ModeNo)
+	switch (m_NowModeNo)
 	{
 	case MODENO_STORY:
 		m_StoryBgTex.Render(0, 0);
@@ -89,7 +119,8 @@ void CSceneModeSelect::Render(void) {
 		m_EndlessOnButton.Render(100, 200);
 		break;
 	}
-
+	//黒画面
+	CGraphicsUtilities::RenderFillRect(GetWindowRect(), MOF_ALPHA_BLACK((int)m_BgAlpha));
 	RenderBase();
 }
 
