@@ -11,8 +11,6 @@
 #include	"Enemy.h"
 #include	"Item.h"
 
-//左傾斜チップ
-#define		LEFTSLOPE		2
 #define		STAGESCROLL		300			//スクロール地点
 
 class CStage {
@@ -45,7 +43,6 @@ public:
 	void RenderDebug();
 	void Release();
 	bool Collision(CRectangle r, Vector2& buried);
-	bool CollisionWall(CRectangle r, Vector2& buried);
 	Vector2 GetScroll() { return m_Scroll; }
 	int GetEnemyCount() { return m_EnemyCount; }
 	int GetItemCount() { return m_ItemCount; }

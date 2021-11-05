@@ -14,7 +14,7 @@
 #define		ENEMY_FALLSPEED			8.0f			//—Ž‰º‘¬“x
 
 class CEnemy {
-private:
+protected:
 	CTexture*					m_pTexture;
 	CSpriteMotionController		m_Motion;
 	int							m_Type;

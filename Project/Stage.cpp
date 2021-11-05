@@ -166,8 +166,6 @@ void CStage::Initialize(CEnemy* pEnemy, CItem* pItem) {
 	{
 		for (int x = 0; x < m_ChipCnt.x; x++)
 		{
-			//配置番号
-			//番号０は配置しない
 			char on = m_pEnemyData[y * (int)m_ChipCnt.x + x] - 1;
 			if (on < 0)
 			{
@@ -183,8 +181,6 @@ void CStage::Initialize(CEnemy* pEnemy, CItem* pItem) {
 	{
 		for (int x = 0; x < m_ChipCnt.x; x++)
 		{
-			//配置番号
-			//番号０は配置しない
 			char on = m_pItemData[y * (int)m_ChipCnt.x + x] - 1;
 			if (on < 0)
 			{
@@ -199,7 +195,7 @@ void CStage::Initialize(CEnemy* pEnemy, CItem* pItem) {
 /// <summary>
 /// 更新
 /// </summary>
-/// <param name="pl">プレイヤー。スクロールの判定に使用。</param>
+/// <param name="pl">プレイヤー</param>
 void CStage::Update(CPlayer& pl) {
 	CRectangle prec = pl.GetRect();											//プレイヤーの矩形
 	float sh = CGraphicsUtilities::GetGraphics()->GetTargetHeight();		//スクリーンの高さ
@@ -319,7 +315,6 @@ bool CStage::Collision(CRectangle r, Vector2& buried) {
 	if (bc >= m_ChipCnt.y) { bc = m_ChipCnt.y - 1; }
 
 	//当たり判定をする矩形の左上から右下の範囲のみ当たり判定をおこなう
-	//それ以外の番号は当たることはないので、判定が必要ない
 	for (int y = tc; y <= bc; y++)
 	{
 		for (int x = lc; x <= rc; x++)
@@ -333,54 +328,30 @@ bool CStage::Collision(CRectangle r, Vector2& buried) {
 			}
 			//マップチップの矩形
 			CRectangle cr(x * m_ChipSize, y * m_ChipSize, x * m_ChipSize + m_ChipSize, y * m_ChipSize + m_ChipSize);
-			//当たり判定用のキャラクタ矩形
-			//下で範囲を限定した専用の矩形を作成する。
+			//下の当たり判定用矩形を作成する。
 			CRectangle brec = r;
-			brec.Top = brec.Bottom - 1;		//下の矩形は上側を下と同じ値にする
-			brec.Expansion(-6, 0);				//横の範囲を少し狭める
+			brec.Top = brec.Bottom - 1;	
+			brec.Expansion(-6, 0);		
 			//下と当たり判定
 			if (cr.CollisionRect(brec))
 			{
 				re = true;
-				//チップが傾斜の場合、自分の立ち位置から高さの割合を求める
-				if (cn == LEFTSLOPE)
-				{
-					float sp = (brec.Right - cr.Left) / cr.GetWidth();
-					if (sp < 0.0f) { sp = 0.0f; }
-					else if (sp > 1.0f) { sp = 1.0f; }
-					//斜面の上の位置を求める
-					float cTop = cr.Bottom - cr.GetHeight() * sp;
-					//求めた上辺より上にある場合は埋まっていない
-					if (brec.Bottom < cTop) { continue; }
-					//下の埋まりなので、坂上端から矩形の下端の値を引いた値が埋まりの値
-					buried.y += cTop - brec.Bottom;
-					r.Top += cTop - brec.Bottom;
-					r.Bottom += cTop - brec.Bottom;
-				}
-				else
-				{
-					//下の埋まりなので、チップ上端から矩形の下端の値を引いた値が埋まりの値
-					buried.y += cr.Top - brec.Bottom;
-					r.Top += cr.Top - brec.Bottom;
-					r.Bottom += cr.Top - brec.Bottom;
-				}
+				buried.y += cr.Top - brec.Bottom;
+				r.Top += cr.Top - brec.Bottom;
+				r.Bottom += cr.Top - brec.Bottom;
 			}
-			//チップが斜面の場合、壁・天井としての当たり判定をおこなわない
-			if (cn == LEFTSLOPE) { continue; }
 
-			//当たり判定用のキャラクタ矩形
-			//左、右それぞれで範囲を限定した専用の矩形を作成する。
+			//左、右それぞれの当たり判定用矩形を作成する。
 			CRectangle lrec = r;
-			lrec.Right = lrec.Left + 1;		//左の矩形は右側を左と同じ値にする
-			lrec.Expansion(0, -6);				//縦の範囲を少し狭める
+			lrec.Right = lrec.Left + 1;
+			lrec.Expansion(0, -6);	
 			CRectangle rrec = r;
-			rrec.Left = rrec.Right - 1;		//右の矩形は左側を右と同じ値にする
-			rrec.Expansion(0, -6);				//縦の範囲を少し狭める
+			rrec.Left = rrec.Right - 1;
+			rrec.Expansion(0, -6);	
 			//左と当たり判定
 			if (cr.CollisionRect(lrec))
 			{
 				re = true;
-				//左の埋まりなので、チップ右端から矩形の左端の値を引いた値が埋まりの値
 				buried.x += cr.Right - lrec.Left;
 				r.Left += cr.Right - lrec.Left;
 				r.Right += cr.Right - lrec.Left;
@@ -389,85 +360,21 @@ bool CStage::Collision(CRectangle r, Vector2& buried) {
 			else if (cr.CollisionRect(rrec))
 			{
 				re = true;
-				//右の埋まりなので、チップ左端から矩形の右側の値を引いた値が埋まりの値
 				buried.x += cr.Left - rrec.Right;
 				r.Left += cr.Left - rrec.Right;
 				r.Right += cr.Left - rrec.Right;
 			}
-			//当たり判定用のキャラクタ矩形
-			//上で範囲を限定した専用の矩形を作成する。
+			//上の当たり判定用矩形を作成する。
 			CRectangle trec = r;
-			trec.Bottom = trec.Top + 1;		//上の矩形は下側を上と同じ値にする
-			trec.Expansion(-6, 0);				//横の範囲を少し狭める
+			trec.Bottom = trec.Top + 1;
+			trec.Expansion(-6, 0);	
 			//上と当たり判定
 			if (cr.CollisionRect(trec))
 			{
 				re = true;
-				//上の埋まりなので、チップ下端から矩形の上端の値を引いた値が埋まりの値
 				buried.y += cr.Bottom - trec.Top;
 				r.Top += cr.Bottom - trec.Top;
 				r.Bottom += cr.Bottom - trec.Top;
-			}
-		}
-	}
-
-	return re;
-}
-
-/// <summary>
-/// 壁ジャンプ用当たり判定
-/// </summary>
-/// <param name="r">判定する矩形</param>
-/// <param name="buried">埋まり量</param>
-/// <returns>当たっていればtrue, 当たっていなければfalse</returns>
-bool CStage::CollisionWall(CRectangle r, Vector2& buried) {
-	bool re = false;
-
-	//当たり判定する矩形の左上と右下のチップ位置を求める
-	int lc = r.Left / m_ChipSize;
-	int rc = r.Right / m_ChipSize;
-	int tc = r.Top / m_ChipSize;
-	int bc = r.Bottom / m_ChipSize;
-	//ステージの範囲外にはならないようにする
-	if (lc < 0) { lc = 0; }
-	if (tc < 0) { tc = 0; }
-	if (rc >= m_ChipCnt.x) { rc = m_ChipCnt.x - 1; }
-	if (bc >= m_ChipCnt.y) { bc = m_ChipCnt.y - 1; }
-
-	for (int y = tc; y <= bc; y++)
-	{
-		for (int x = lc; x <= rc; x++)
-		{
-			char cn = m_pChipData[y * (int)m_ChipCnt.x + x] - 1;
-			if (cn < 0)
-			{
-				continue;
-			}
-			//マップチップの矩形
-			CRectangle cr(x * m_ChipSize, y * m_ChipSize, x * m_ChipSize + m_ChipSize, y * m_ChipSize + m_ChipSize);
-			
-			//チップが斜面の場合、壁・天井としての当たり判定をおこなわない
-			if (cn == LEFTSLOPE) { continue; }
-
-			//当たり判定用のキャラクタ矩形
-			//左、右それぞれで範囲を限定した専用の矩形を作成する。
-			CRectangle lrec = r;
-			lrec.Right = lrec.Left + 1;		//左の矩形は右側を左と同じ値にする
-			CRectangle rrec = r;
-			rrec.Left = rrec.Right - 1;		//右の矩形は左側を右と同じ値にする
-			//左と当たり判定
-			if (cr.CollisionRect(lrec))
-			{
-				re = true;
-				//左の埋まりなので、チップ右端から矩形の左端の値を引いた値が埋まりの値
-				buried.x += cr.Right - lrec.Left;
-			}
-			//右と当たり判定
-			else if (cr.CollisionRect(rrec))
-			{
-				re = true;
-				//右の埋まりなので、チップ左端から矩形の右側の値を引いた値が埋まりの値
-				buried.x += cr.Left - rrec.Right;
 			}
 		}
 	}

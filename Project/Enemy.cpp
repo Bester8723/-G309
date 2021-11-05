@@ -59,21 +59,41 @@ void CEnemy::Initialize(Vector2 pos, int type) {
 	m_MoveSpeed = ENEMY_INI_SPEED;
 	ENEMY_DAMAGESPEED = ENEMY_INI_SPEED * 1.5f;
 
-	SpriteAnimationCreate anim[] = {
-		{
+	SpriteAnimationCreate anim[MOTION_COUNT];
+	switch (m_Type)
+	{
+	case	ENEMYTYPE_HORIZONTAL:
+		anim[MOTION_MOVE] = {
 			"移動",
 			0,0,
 			128,128,
 			TRUE,{ { 1,0,0 },{ 7,1,0 },{ 7,2,0 },{ 7,3,0 },{ 7,4,0 },{ 7,5,0 },{ 7,6,0 },{ 7,7,0 }, }
-		},
-		{
+		};
+		anim[MOTION_DAMAGE] = {
 			"ダメージ",
 			0,210,
 			60,64,
 			FALSE,{{ 10,0,0 }}
-		},
-	};
-	m_Motion.Create(anim, MOTION_COUNT);
+		};
+		m_Motion.Create(anim, MOTION_COUNT);
+		break;
+	case	ENEMYTYPE_VERTICAL:	
+		anim[MOTION_MOVE] = {
+			"移動",
+			0,0,
+			128,128,
+			TRUE,{ { 1,0,0 },{ 7,1,0 },{ 7,2,0 },{ 7,3,0 },{ 7,4,0 },{ 7,5,0 },{ 7,6,0 },{ 7,7,0 }, }
+		};
+		anim[MOTION_DAMAGE] = {
+			"ダメージ",
+			0,210,
+			60,64,
+			FALSE,{{ 10,0,0 }}
+		};
+		m_Motion.Create(anim, MOTION_COUNT);
+		break;
+	default: break;
+	}
 }
 
 /// <summary>
