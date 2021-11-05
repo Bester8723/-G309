@@ -101,6 +101,11 @@ void CSceneModeSelect::Update() {
 		CGameModeManager::Instance().SetPlayMode(m_NowModeNo);
 		SetNextScene(SCENENO_GAME);
 	}
+	//Spaceキーでタイトルシーンへ遷移
+	else if (g_pInput->IsKeyPush(MOFKEY_SPACE))
+	{
+		SetNextScene(SCENENO_TITLE);
+	}
 }
 
 /// <summary>

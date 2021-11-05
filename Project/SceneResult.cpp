@@ -64,7 +64,7 @@ void CSceneResult::Update() {
 	if (g_pInput->IsKeyPush(MOFKEY_RETURN))
 	{
 		CGameEndManager::Instance().SetGameEndCondition(GAMEENDNO_CONTINUE);
-		SetNextScene(SCENENO_GAME);
+		SetNextScene(SCENENO_MODESELECT);
 	}
 }
 
